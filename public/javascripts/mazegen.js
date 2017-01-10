@@ -33,6 +33,7 @@ var currentTime = 0;
 var gameRunTime = '0.0';
 var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
+
 $(document).ready(function () {
     canvas = null;
     div = document.getElementById('canvascontainer');
@@ -281,27 +282,26 @@ var isLegalMove = function (x, y) {
                 if (difficulty.options[difficulty.selectedIndex].text == "Kris") {
                     grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
                     stopGameLoop();
-                    window.alert("You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds");
+                    addHighscore();
                 }
                 else if (difficulty.options[difficulty.selectedIndex].text == "Easy" || difficulty.options[difficulty.selectedIndex].text == "Medium") {
                     grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
                     stopGameLoop();
-                    window.alert("You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds");
+                    addHighscore();
                 }
                 else if (difficulty.options[difficulty.selectedIndex].text == "Hard") {
                     grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
                     stopGameLoop();
-                    window.alert("You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds");
+                    addHighscore();
                 }
                 else if (difficulty.options[difficulty.selectedIndex].text == "Insane") {
                     grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
                     stopGameLoop();
-                    window.alert("You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds");   
+                    addHighscore();
                 }
                 else {
-                    window.alert("You are a God among men");
                     stopGameLoop();
-                    window.alert("You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds");
+                    addHighscore();
                 }
             }
             return true;
@@ -390,4 +390,21 @@ function stopGameLoop() {
     gameRunning = false;
     stopGameTimer();
     clearTimeout(gameTimeout);
+}
+
+function addHighscore() {
+    var person = prompt("Congratulations, You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds. Please enter your name:");
+
+    if (person != null) {
+        //post to highscore
+        $.post("/submitscore",
+            {
+                name: person,
+                score: gameRunTime,
+            },
+            function (msg) {
+                alert(msg);
+            }
+        );
+    }
 }
