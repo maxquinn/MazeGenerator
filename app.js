@@ -13,7 +13,7 @@ var hardhighscore = require('./models/hardhighscore.js');
 var insanehighscore = require('./models/insanehighscore.js');
 var impossiblehighscore = require('./models/impossiblehighscore.js');
 
-var port = process.env.port || 3000;
+var port = process.env.PORT || 5000;
 
 //mongo setup
 const mongoose = require('mongoose');
