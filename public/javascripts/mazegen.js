@@ -279,30 +279,8 @@ var isLegalMove = function (x, y) {
     if (x >= 0 && x < gridWidth && y >= 0 && y <= gridHeight) {
         if (!grid[x][y].isWall()) {
             if (grid[x][y].end == true) {
-                if (difficulty.options[difficulty.selectedIndex].text == "Kris") {
-                    grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
-                    stopGameLoop();
-                    addHighscore();
-                }
-                else if (difficulty.options[difficulty.selectedIndex].text == "Easy" || difficulty.options[difficulty.selectedIndex].text == "Medium") {
-                    grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
-                    stopGameLoop();
-                    addHighscore();
-                }
-                else if (difficulty.options[difficulty.selectedIndex].text == "Hard") {
-                    grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
-                    stopGameLoop();
-                    addHighscore();
-                }
-                else if (difficulty.options[difficulty.selectedIndex].text == "Insane") {
-                    grid[gridWidth - 1][(gridHeight - 1) - 1].end = false;
-                    stopGameLoop();
-                    addHighscore();
-                }
-                else {
-                    stopGameLoop();
-                    addHighscore();
-                }
+                stopGameLoop();
+                addHighscore(difficulty.options[difficulty.selectedIndex].text);
             }
             return true;
         }
@@ -392,19 +370,77 @@ function stopGameLoop() {
     clearTimeout(gameTimeout);
 }
 
-function addHighscore() {
-    var person = prompt("Congratulations, You finished " + difficulty.options[difficulty.selectedIndex].text + " difficulty in " + gameRunTime + " seconds. Please enter your name:");
+function addHighscore(levelName) {
+    var person = prompt("Congratulations, You finished " + levelName + " difficulty in " + gameRunTime + " seconds. Please enter your name:");
 
     if (person != null) {
-        //post to highscore
-        $.post("/submitscore",
-            {
-                name: person,
-                score: gameRunTime,
-            },
-            function (msg) {
-                alert(msg);
-            }
-        );
+
+        if (levelName == "Kris") {
+            //post to highscore
+            $.post("/krishighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
+        else if (levelName == "Easy") {
+            $.post("/easyhighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
+        else if (levelName == "Medium") {
+            $.post("/mediumhighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
+        else if (levelName == "Hard") {
+            $.post("/hardhighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
+        else if (levelName == "Insane") {
+            $.post("/insanehighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
+        else if (levelName == "Impossible") {
+            $.post("/impossiblehighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
     }
 }

@@ -1,9 +1,48 @@
+//does not work
+
 var mongoose = require('mongoose');
 
-var highscoreSchema = new mongoose.Schema({
+var krisSchema = new mongoose.Schema({
     name: String,
     score: String
 },
-    {collection : 'highscores'});
+    { collection: 'krishighscores' });
 
-module.exports = mongoose.model('Score', highscoreSchema);
+var easySchema = new mongoose.Schema({
+    name: String,
+    score: String
+},
+    { collection: 'easyhighscores' });
+
+var mediumSchema = new mongoose.Schema({
+    name: String,
+    score: String
+},
+    { collection: 'mediumhighscores' });
+
+var hardSchema = new mongoose.Schema({
+    name: String,
+    score: String
+},
+    { collection: 'hardhighscores' });
+
+var insaneSchema = new mongoose.Schema({
+    name: String,
+    score: String
+},
+    { collection: 'insanehighscores' });
+
+var impossibleSchema = new mongoose.Schema({
+    name: String,
+    score: String
+},
+    { collection: 'impossiblehighscores' });
+
+module.exports = {
+    kris : mongoose.model('kris', krisSchema),
+    easy : mongoose.model('easy', easySchema),
+    medium : mongoose.model('medium', mediumSchema),
+    hard : mongoose.model('hard', hardSchema),
+    insane : mongoose.model('insane', insaneSchema),
+    impossible : mongoose.model('impossible', impossibleSchema)
+}

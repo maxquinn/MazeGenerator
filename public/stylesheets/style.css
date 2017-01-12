@@ -68,3 +68,23 @@ input {
     padding-left: 10px; 
     border-style: none;
 }
+
+.highscore-table {
+    color: white;
+    font-size: 12px;
+    width: 100%;
+}
+
+th, td {
+    font-family: 'Raleway',sans-serif;
+    padding-top: 5px;
+}
+
+th {
+    border-bottom: 1px solid white;
+}
+
+.scorecol {
+    padding-left: 10px;
+    border-left: 1px solid white;
+}
