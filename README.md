@@ -8,4 +8,4 @@ The game is currently being hosted at http://itsmaze.herokuapp.com/
 ###### Note that if you are the first one accessing the site in the last half-hour, you will encounter an error as the free dyno wakes up. Not sure how to fix this but simply refresh the page and it should work. 
 
 ### Check out the screenshot of the game:
-("https://github.com/maxquinn/MazeGenerator/blob/master/MazeCapture.PNG" ITS Maze Screenshot)
+![ITS Maze Screenshot](https://raw.githubusercontent.com/maxquinn/MazeGenerator/blob/master/MazeCapture.PNG)
