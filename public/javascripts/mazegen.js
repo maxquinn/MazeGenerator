@@ -115,11 +115,12 @@ function Cell(x, y) {
 }
 
 Cell.prototype.drawCell = function () {
-    if (this.wall) {
+    let levelName = difficulty.options[difficulty.selectedIndex].text;
+    if (this.wall && levelName !== "Koga") {
         cC.fillStyle = '#000000';
         cC.fillRect(this.row * size, this.col * size, size, size);
     }
-    else if (!this.wall) {
+    else if (!this.wall || levelName === "Koga") {
         cC.clearRect(this.row * size, this.col * size, size, size);
     }
 
@@ -433,6 +434,17 @@ function addHighscore(levelName) {
         }
         else if (levelName == "Impossible") {
             $.post("/impossiblehighscore",
+                {
+                    name: person,
+                    score: gameRunTime,
+                },
+                function (msg) {
+                    alert(msg);
+                }
+            );
+        }
+        else if (levelName == "Koga") {
+            $.post("/kogahighscore",
                 {
                     name: person,
                     score: gameRunTime,

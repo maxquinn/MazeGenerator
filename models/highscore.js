@@ -38,11 +38,18 @@ var impossibleSchema = new mongoose.Schema({
 },
     { collection: 'impossiblehighscores' });
 
+var kogaSchema = new mongoose.Schema({
+        name: String,
+        score: String
+    },
+    { collection: 'kogahighscores' });
+
 module.exports = {
     kris : mongoose.model('kris', krisSchema),
     easy : mongoose.model('easy', easySchema),
     medium : mongoose.model('medium', mediumSchema),
     hard : mongoose.model('hard', hardSchema),
     insane : mongoose.model('insane', insaneSchema),
-    impossible : mongoose.model('impossible', impossibleSchema)
+    impossible : mongoose.model('impossible', impossibleSchema),
+    koga : mongoose.model('koga', kogaSchema)
 }

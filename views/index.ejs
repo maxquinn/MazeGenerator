@@ -26,6 +26,7 @@
   					<option value="18">Hard</option>
 					<option value="9">Insane</option>
 					<option value="3">Impossible</option>
+					<option value="27">Koga</option>
 					</select>
 			</div>
 			<div class="col-sm-4">
@@ -139,6 +140,22 @@
 							</td>
 							<td class="scorecol">
 								<%= scores.impossible[i].score %> s</td>
+						</tr>
+						<% } %>
+				</table>
+			</div>
+			<div class="col-sm-2">
+				<table class="highscore-table">
+					<tr>
+						<th colspan="2">Koga Highscores</th>
+					</tr>
+					<% for(var i=0; i<scores.koga.length; i++) { %>
+						<tr>
+							<td>
+								<%= scores.koga[i].name %>
+							</td>
+							<td class="scorecol">
+								<%= scores.koga[i].score %> s</td>
 						</tr>
 						<% } %>
 				</table>
