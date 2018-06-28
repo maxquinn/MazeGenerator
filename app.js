@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 //Set up and connect to mongo database
-mongoose.connect('mongodb://mazeadmin:Dmtmakeamandream1@ds039850.mlab.com:39850/mazehighscores', function (err) {
+mongoose.connect('mongodb://mazerunner:mazeadmin123@ds039850.mlab.com:39850/mazehighscores', function (err) {
     if (err) return console.log(err);
     else {
         console.log('Connection Succesful');
