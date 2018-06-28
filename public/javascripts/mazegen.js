@@ -33,6 +33,8 @@ var currentTime = 0;
 var gameRunTime = '0.0';
 var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
+var wallImage;
+var floorImage;
 
 $(document).ready(function () {
     canvas = null;
@@ -80,7 +82,11 @@ var drawMaze = function () {
     size = difficulty.options[difficulty.selectedIndex].value;
     grid = [];
 
-
+    wallImage = new Image(size, size);
+    floorImage = new Image(size, size);
+    wallImage.src = '/public/koga-wall.png';
+    floorImage.src = '/public/koga-floor.png';
+    
     gridHeight = Math.floor(canvas.offsetHeight / size);
     gridWidth = Math.floor(canvas.offsetWidth / size);
 
@@ -116,23 +122,38 @@ function Cell(x, y) {
 
 Cell.prototype.drawCell = function () {
     let levelName = difficulty.options[difficulty.selectedIndex].text;
-    if (this.wall && levelName !== "Koga") {
-        cC.fillStyle = '#000000';
-        cC.fillRect(this.row * size, this.col * size, size, size);
+    if (levelName == "Koga") {
+        if (this.wall) {
+            cC.drawImage(wallImage, this.row * size, this.col * size, size, size)
+        }
+        else if (!this.wall || levelName === "Koga") {
+            cC.drawImage(floorImage, this.row * size, this.col * size, size, size)
+        }
+        if (this.player) {
+            cC.fillStyle = "#" + playerColor;
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
+        if (this.end) {
+            cC.fillStyle = "#ff0000";
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
+    } else {
+        if (this.wall) {
+            cC.fillStyle = '#000000';
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
+        else if (!this.wall) {
+            cC.clearRect(this.row * size, this.col * size, size, size);
+        }
+        if (this.player) {
+            cC.fillStyle = "#" + playerColor;
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
+        if (this.end) {
+            cC.fillStyle = "#ff0000";
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
     }
-    else if (!this.wall || levelName === "Koga") {
-        cC.clearRect(this.row * size, this.col * size, size, size);
-    }
-
-    if (this.player) {
-        cC.fillStyle = "#" + playerColor;
-        cC.fillRect(this.row * size, this.col * size, size, size);
-    }
-    if (this.end) {
-        cC.fillStyle = "#ff0000";
-        cC.fillRect(this.row * size, this.col * size, size, size);
-    }
-
 };
 
 Cell.prototype.isWall = function () {
