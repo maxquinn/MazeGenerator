@@ -1,15 +1,6 @@
 /*jshint esversion: 6 */
 'use strict';
 
-// function getRandomColor() {
-//     var letters = '0123456789ABCDEF';
-//     var color = '#';
-//     for (var i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// }
-
 var canvas;
 var cC;
 var div;
@@ -35,21 +26,21 @@ var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
 var wallImage = new Image(size, size);
 var floorImage = new Image(size, size);
-wallImage.src = '/public/koga-wall.png';
-floorImage.src = '/public/koga-floor.png';
+wallImage.src = '/public/sprites/koga-wall.png';
+floorImage.src = '/public/sprites/koga-floor.png';
 
-$(document).ready(function () {
+$(document).ready(function() {
     canvas = null;
     div = document.getElementById('canvascontainer');
-    mazeGenButton = document.getElementById("mazeGenButton");
+    mazeGenButton = document.getElementById('mazeGenButton');
     mazeGenButton.onclick = drawMaze;
     gameTimeDisplay.innerHTML = gameRunTime;
 });
 
-var drawMaze = function () {
+var drawMaze = function() {
     if (canvas != null) {
         //set everything back
-        div.removeChild(document.getElementById("myCanvas"));
+        div.removeChild(document.getElementById('myCanvas'));
         canvas = undefined;
         cC = undefined;
         div = undefined;
@@ -67,20 +58,20 @@ var drawMaze = function () {
     }
     div = document.getElementById('canvascontainer');
     canvas = document.createElement('canvas');
-    canvas.id = "myCanvas";
+    canvas.id = 'myCanvas';
     canvas.width = 1000;
     canvas.height = 1000;
     div.appendChild(canvas);
     //remove event listeners
-    window.removeEventListener("keydown", keysTrue, true);
-    window.removeEventListener("keydown", keysFalse, true);
+    window.removeEventListener('keydown', keysTrue, true);
+    window.removeEventListener('keydown', keysFalse, true);
 
-    cC = canvas.getContext("2d");
+    cC = canvas.getContext('2d');
     cC.moveTo(0, 0);
     cC.clearRect(0, 0, canvas.width, canvas.height);
-    playerColor = document.getElementById("playercolor").value;
+    playerColor = document.getElementById('playercolor').value;
     //Set up constants
-    difficulty = document.getElementById("difficulty");
+    difficulty = document.getElementById('difficulty');
     size = difficulty.options[difficulty.selectedIndex].value;
     grid = [];
 
@@ -118,83 +109,88 @@ function Cell(x, y) {
     this.answer = false;
 }
 
-Cell.prototype.drawCell = function () {
+Cell.prototype.drawCell = function() {
     let levelName = difficulty.options[difficulty.selectedIndex].text;
-    if (levelName == "Koga") {
+    if (levelName == 'Koga') {
         if (this.wall) {
-            cC.drawImage(wallImage, this.row * size, this.col * size, size, size)
-        }
-        else if (!this.wall) {
-            cC.drawImage(floorImage, this.row * size, this.col * size, size, size)
+            cC.drawImage(
+                wallImage,
+                this.row * size,
+                this.col * size,
+                size,
+                size
+            );
+        } else if (!this.wall) {
+            cC.drawImage(
+                floorImage,
+                this.row * size,
+                this.col * size,
+                size,
+                size
+            );
         }
         if (this.player) {
-            cC.fillStyle = "#" + playerColor;
+            cC.fillStyle = '#' + playerColor;
             cC.fillRect(this.row * size, this.col * size, size, size);
-        }
-        else if (this.answer) {
+        } else if (this.answer) {
             //TODO itemfinder arrows?
             cC.fillStyle = '#00ff00';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
         if (this.end) {
-            cC.fillStyle = "#ff0000";
+            cC.fillStyle = '#ff0000';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
     } else {
         if (this.wall) {
             cC.fillStyle = '#000000';
             cC.fillRect(this.row * size, this.col * size, size, size);
-        }
-        else if (!this.wall) {
+        } else if (!this.wall) {
             cC.clearRect(this.row * size, this.col * size, size, size);
         }
         if (this.player) {
-            cC.fillStyle = "#" + playerColor;
+            cC.fillStyle = '#' + playerColor;
             cC.fillRect(this.row * size, this.col * size, size, size);
-        }
-        else if (this.answer) {
+        } else if (this.answer) {
             cC.fillStyle = '#00ff00';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
         if (this.end) {
-            cC.fillStyle = "#ff0000";
+            cC.fillStyle = '#ff0000';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
     }
 };
 
-Cell.prototype.isWall = function () {
+Cell.prototype.isWall = function() {
     if (this.wall == true) {
         return true;
-    }
-    else return false;
-}
+    } else return false;
+};
 
-Cell.prototype.clearCell = function () {
+Cell.prototype.clearCell = function() {
     cC.clearRect(this.row * size, this.col * size, size, size);
-}
+};
 
-Cell.prototype.hasNeighbors = function () {
+Cell.prototype.hasNeighbors = function() {
     if (this.neighborList.length > 0) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 };
 
-Cell.prototype.setPlayerCell = function () {
+Cell.prototype.setPlayerCell = function() {
     if (!this.wall && !this.player) {
         this.player = true;
-    }
-    else {
+    } else {
         this.player = false;
     }
-}
+};
 
-Cell.prototype.removePlayerCell = function () {
+Cell.prototype.removePlayerCell = function() {
     this.player = false;
-}
+};
 //--------------------------------------------------------------------//
 
 function drawItAll() {
@@ -206,11 +202,12 @@ function drawItAll() {
 }
 
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -257,7 +254,6 @@ function findNeighbors(cellToFindNeighborsOf) {
 }
 
 function randPrimsAlgo(row, col) {
-
     //add starting cell to maze
     var currentCell = grid[row][col];
     currentCell.wall = false;
@@ -265,50 +261,63 @@ function randPrimsAlgo(row, col) {
     findNeighbors(currentCell);
     while (currentCell.hasNeighbors()) {
         currentCell.neighborList = shuffle(currentCell.neighborList);
-        var nextNeighbor = currentCell.neighborList[currentCell.neighborList.length - 1];
+        var nextNeighbor =
+            currentCell.neighborList[currentCell.neighborList.length - 1];
         findNeighbors(nextNeighbor);
         for (var i = 0; i < nextNeighbor.neighborList.length; i++) {
-            if (nextNeighbor.neighborList[i].row == currentCell.row - 2 || nextNeighbor.neighborList[i].row == currentCell.row + 2 || nextNeighbor.neighborList[i].col == currentCell.col - 2 || nextNeighbor.neighborList[i].col == currentCell.col + 2) {
+            if (
+                nextNeighbor.neighborList[i].row == currentCell.row - 2 ||
+                nextNeighbor.neighborList[i].row == currentCell.row + 2 ||
+                nextNeighbor.neighborList[i].col == currentCell.col - 2 ||
+                nextNeighbor.neighborList[i].col == currentCell.col + 2
+            ) {
                 nextNeighbor.wall = false;
-                randPrimsAlgo(nextNeighbor.neighborList[i].row, nextNeighbor.neighborList[i].col);
+                randPrimsAlgo(
+                    nextNeighbor.neighborList[i].row,
+                    nextNeighbor.neighborList[i].col
+                );
             }
         }
         currentCell.neighborList.pop();
     }
-
 }
 
 function entryAndExit() {
     grid[0][1].wall = false;
-    grid[gridWidth - 1][(gridHeight - 1) - 1].wall = false;
-    grid[gridWidth - 1][(gridHeight - 1) - 1].end = true;
+    grid[gridWidth - 1][gridHeight - 1 - 1].wall = false;
+    grid[gridWidth - 1][gridHeight - 1 - 1].end = true;
 }
 
-var keysTrue = function (e) {
-
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+var keysTrue = function(e) {
+    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
     keyState[e.keyCode || e.which] = true;
-}
-var keysFalse = function (e) {
+};
+var keysFalse = function(e) {
     keyState[e.keyCode || e.which] = false;
-}
+};
 
-var drawSurroundingCells = function () {
+var drawSurroundingCells = function() {
     grid[playerXPos][playerYPos].drawCell();
 
-    if (playerXPos - 1 >= 0 && playerYPos - 1 >= 0) grid[playerXPos - 1][playerYPos - 1].drawCell();
-    if (playerXPos - 1 >= 0 && playerYPos + 1 < grid[0].length) grid[playerXPos - 1][playerYPos + 1].drawCell();
+    if (playerXPos - 1 >= 0 && playerYPos - 1 >= 0)
+        grid[playerXPos - 1][playerYPos - 1].drawCell();
+    if (playerXPos - 1 >= 0 && playerYPos + 1 < grid[0].length)
+        grid[playerXPos - 1][playerYPos + 1].drawCell();
     if (playerXPos - 1 >= 0) grid[playerXPos - 1][playerYPos].drawCell();
-    if (playerXPos + 1 < grid.length && playerYPos - 1 >= 0) grid[playerXPos + 1][playerYPos - 1].drawCell();
-    if (playerXPos + 1 < grid.length && playerYPos + 1 < grid[0].length) grid[playerXPos + 1][playerYPos + 1].drawCell();
-    if (playerXPos + 1 < grid.length) grid[playerXPos + 1][playerYPos].drawCell();
-    if (playerYPos + 1 < grid[0].length) grid[playerXPos][playerYPos + 1].drawCell();
+    if (playerXPos + 1 < grid.length && playerYPos - 1 >= 0)
+        grid[playerXPos + 1][playerYPos - 1].drawCell();
+    if (playerXPos + 1 < grid.length && playerYPos + 1 < grid[0].length)
+        grid[playerXPos + 1][playerYPos + 1].drawCell();
+    if (playerXPos + 1 < grid.length)
+        grid[playerXPos + 1][playerYPos].drawCell();
+    if (playerYPos + 1 < grid[0].length)
+        grid[playerXPos][playerYPos + 1].drawCell();
     if (playerYPos - 1 >= 0) grid[playerXPos][playerYPos - 1].drawCell();
-}
+};
 
-var isLegalMove = function (x, y) {
+var isLegalMove = function(x, y) {
     if (x >= 0 && x < gridWidth && y >= 0 && y <= gridHeight) {
         if (!grid[x][y].isWall()) {
             if (grid[x][y].end == true) {
@@ -318,13 +327,12 @@ var isLegalMove = function (x, y) {
             return true;
         }
         return false;
-    }
-    else {
+    } else {
         return false;
     }
-}
+};
 
-var startGame = function () {
+var startGame = function() {
     gameRunning = true;
     playerXPos = 0;
     playerYPos = 1;
@@ -344,12 +352,14 @@ function updateGameTimer() {
     currentTime += 100;
 
     gameRunTime = Math.floor(currentTime / 100) / 10;
-    if (Math.round(gameRunTime) == gameRunTime) { gameRunTime += '.0'; }
+    if (Math.round(gameRunTime) == gameRunTime) {
+        gameRunTime += '.0';
+    }
 
     gameTimeDisplay.innerHTML = gameRunTime;
 
-    var diff = (new Date().getTime() - startTime) - currentTime;
-    timerLoop = setTimeout(updateGameTimer, (100 - diff));
+    var diff = new Date().getTime() - startTime - currentTime;
+    timerLoop = setTimeout(updateGameTimer, 100 - diff);
 }
 
 function stopGameTimer() {
@@ -404,84 +414,90 @@ function stopGameLoop() {
 }
 
 function addHighscore(levelName) {
-    var person = prompt("Congratulations, You finished " + levelName + " difficulty in " + gameRunTime + " seconds. Please enter your name:");
+    var person = prompt(
+        'Congratulations, You finished ' +
+            levelName +
+            ' difficulty in ' +
+            gameRunTime +
+            ' seconds. Please enter your name:'
+    );
 
     if (person != null) {
-
-        if (levelName == "Kris") {
+        if (levelName == 'Kris') {
             //post to highscore
-            $.post("/krishighscore",
+            $.post(
+                '/krishighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
-        }
-        else if (levelName == "Easy") {
-            $.post("/easyhighscore",
+        } else if (levelName == 'Easy') {
+            $.post(
+                '/easyhighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
-        }
-        else if (levelName == "Medium") {
-            $.post("/mediumhighscore",
+        } else if (levelName == 'Medium') {
+            $.post(
+                '/mediumhighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
-        }
-        else if (levelName == "Hard") {
-            $.post("/hardhighscore",
+        } else if (levelName == 'Hard') {
+            $.post(
+                '/hardhighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
-        }
-        else if (levelName == "Insane") {
-            $.post("/insanehighscore",
+        } else if (levelName == 'Insane') {
+            $.post(
+                '/insanehighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
-        }
-        else if (levelName == "Impossible") {
-            $.post("/impossiblehighscore",
+        } else if (levelName == 'Impossible') {
+            $.post(
+                '/impossiblehighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
-        }
-        else if (levelName == "Koga") {
-            $.post("/kogahighscore",
+        } else if (levelName == 'Koga') {
+            $.post(
+                '/kogahighscore',
                 {
                     name: person,
-                    score: gameRunTime,
+                    score: gameRunTime
                 },
-                function (msg) {
+                function(msg) {
                     alert(msg);
                 }
             );
@@ -489,20 +505,20 @@ function addHighscore(levelName) {
     }
 }
 
-function showPath(){
+function showPath() {
     var graph = new Graph(getWallGrid());
     var start = graph.grid[0][1];
-    var end = graph.grid[gridWidth - 1][(gridHeight - 1) - 1];
+    var end = graph.grid[gridWidth - 1][gridHeight - 1 - 1];
     var answer = astar.search(graph, start, end);
     var cell;
-    while((cell=answer.pop()) != null){
+    while ((cell = answer.pop()) != null) {
         grid[cell.x][cell.y].answer = true;
     }
     drawItAll();
 }
 
-function getWallGrid(){
-    var wallGrid = []
+function getWallGrid() {
+    var wallGrid = [];
     for (let row = 0; row < gridHeight; row++) {
         wallGrid[row] = [];
         for (let col = 0; col < gridWidth; col++) {
