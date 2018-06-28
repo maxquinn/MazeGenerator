@@ -33,6 +33,8 @@ var currentTime = 0;
 var gameRunTime = '0.0';
 var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
+var path;
+
 
 $(document).ready(function () {
     canvas = null;
@@ -459,4 +461,24 @@ function addHighscore(levelName) {
             );
         }
     }
+}
+
+function showPath(){
+    var graph = new Graph(getWallGrid());
+    var start = graph.nodes[0][1];
+    // return graph.toString();
+    var end = graph.nodes[gridWidth - 1][(gridHeight - 1) - 1];
+    var result = astar.search(graph, start, end);
+    return result;
+}
+
+function getWallGrid(){
+    var wallGrid = []
+    for (let row = 0; row < gridHeight; row++) {
+        wallGrid[row] = [];
+        for (let col = 0; col < gridWidth; col++) {
+            wallGrid[row][col] = grid[row][col].isWall() ? 0 : 1;
+        }
+    }
+    return wallGrid;
 }
