@@ -83,7 +83,7 @@ var drawMaze = function () {
     difficulty = document.getElementById("difficulty");
     size = difficulty.options[difficulty.selectedIndex].value;
     grid = [];
-    
+
     gridHeight = Math.floor(canvas.offsetHeight / size);
     gridWidth = Math.floor(canvas.offsetWidth / size);
 
@@ -115,6 +115,7 @@ function Cell(x, y) {
     this.end = false;
     this.neighborList = [];
     this.neighborList2 = [];
+    this.answer = false;
 }
 
 Cell.prototype.drawCell = function () {
@@ -128,6 +129,11 @@ Cell.prototype.drawCell = function () {
         }
         if (this.player) {
             cC.fillStyle = "#" + playerColor;
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
+        else if (this.answer) {
+            //TODO itemfinder arrows?
+            cC.fillStyle = '#00ff00';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
         if (this.end) {
@@ -144,6 +150,10 @@ Cell.prototype.drawCell = function () {
         }
         if (this.player) {
             cC.fillStyle = "#" + playerColor;
+            cC.fillRect(this.row * size, this.col * size, size, size);
+        }
+        else if (this.answer) {
+            cC.fillStyle = '#00ff00';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
         if (this.end) {
@@ -477,4 +487,27 @@ function addHighscore(levelName) {
             );
         }
     }
+}
+
+function showPath(){
+    var graph = new Graph(getWallGrid());
+    var start = graph.grid[0][1];
+    var end = graph.grid[gridWidth - 1][(gridHeight - 1) - 1];
+    var answer = astar.search(graph, start, end);
+    var cell;
+    while((cell=answer.pop()) != null){
+        grid[cell.x][cell.y].answer = true;
+    }
+    drawItAll();
+}
+
+function getWallGrid(){
+    var wallGrid = []
+    for (let row = 0; row < gridHeight; row++) {
+        wallGrid[row] = [];
+        for (let col = 0; col < gridWidth; col++) {
+            wallGrid[row][col] = grid[row][col].isWall() ? 0 : 1;
+        }
+    }
+    return wallGrid;
 }
