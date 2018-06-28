@@ -126,7 +126,7 @@ Cell.prototype.drawCell = function () {
         if (this.wall) {
             cC.drawImage(wallImage, this.row * size, this.col * size, size, size)
         }
-        else if (!this.wall || levelName === "Koga") {
+        else if (!this.wall) {
             cC.drawImage(floorImage, this.row * size, this.col * size, size, size)
         }
         if (this.player) {
