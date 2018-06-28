@@ -33,8 +33,7 @@ var currentTime = 0;
 var gameRunTime = '0.0';
 var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
-var path;
-
+var answer;
 
 $(document).ready(function () {
     canvas = null;
@@ -114,6 +113,7 @@ function Cell(x, y) {
     this.end = false;
     this.neighborList = [];
     this.neighborList2 = [];
+    this.answer = false;
 }
 
 Cell.prototype.drawCell = function () {
@@ -128,6 +128,9 @@ Cell.prototype.drawCell = function () {
 
     if (this.player) {
         cC.fillStyle = "#" + playerColor;
+        cC.fillRect(this.row * size, this.col * size, size, size);
+    } else if (this.answer) {
+        cC.fillStyle = '#00ff00';
         cC.fillRect(this.row * size, this.col * size, size, size);
     }
     if (this.end) {
@@ -465,11 +468,14 @@ function addHighscore(levelName) {
 
 function showPath(){
     var graph = new Graph(getWallGrid());
-    var start = graph.nodes[0][1];
-    // return graph.toString();
-    var end = graph.nodes[gridWidth - 1][(gridHeight - 1) - 1];
-    var result = astar.search(graph, start, end);
-    return result;
+    var start = graph.grid[0][1];
+    var end = graph.grid[gridWidth - 1][(gridHeight - 1) - 1];
+    answer = astar.search(graph, start, end);
+    var cell;
+    while((cell=answer.pop()) != null){
+        grid[cell.x][cell.y].answer = true;
+    }
+    drawItAll();
 }
 
 function getWallGrid(){
