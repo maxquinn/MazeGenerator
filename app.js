@@ -12,6 +12,7 @@ var mediumhighscore = require('./models/mediumhighscore.js');
 var hardhighscore = require('./models/hardhighscore.js');
 var insanehighscore = require('./models/insanehighscore.js');
 var impossiblehighscore = require('./models/impossiblehighscore.js');
+var kogahighscore = require('./models/kogahighscore.js');
 
 var port = process.env.PORT || 5000;
 
@@ -61,6 +62,9 @@ app.get('/', function (req, res) {
     });
     impossiblehighscore.find({}).sort({ score: 1 }).limit(10).exec(function (err, doc5) {
         highScoresToPopulate.impossible = doc5;
+    });
+    kogahighscore.find({}).sort({ score: 1 }).limit(10).exec(function (err, doc6) {
+        highScoresToPopulate.koga = doc6;
     });
 
     res.render('./index.ejs', { scores: highScoresToPopulate });
@@ -129,6 +133,18 @@ app.post('/insanehighscore', function (req, res) {
 
 app.post('/impossiblehighscore', function (req, res) {
     var post = new impossiblehighscore();
+    post.name = req.body.name;
+    post.score = req.body.score;
+
+    post.save(function (err) {
+        if (err)
+            res.send(err);
+        res.send("Thanks " + req.body.name + ", your score has been submitted");
+    });
+});
+
+app.post('/kogahighscore', function (req, res) {
+    var post = new kogahighscore();
     post.name = req.body.name;
     post.score = req.body.score;
 
