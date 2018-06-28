@@ -33,8 +33,10 @@ var currentTime = 0;
 var gameRunTime = '0.0';
 var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
-var wallImage;
-var floorImage;
+var wallImage = new Image(size, size);
+var floorImage = new Image(size, size);
+wallImage.src = '/public/koga-wall.png';
+floorImage.src = '/public/koga-floor.png';
 
 $(document).ready(function () {
     canvas = null;
@@ -81,11 +83,6 @@ var drawMaze = function () {
     difficulty = document.getElementById("difficulty");
     size = difficulty.options[difficulty.selectedIndex].value;
     grid = [];
-
-    wallImage = new Image(size, size);
-    floorImage = new Image(size, size);
-    wallImage.src = '/public/koga-wall.png';
-    floorImage.src = '/public/koga-floor.png';
     
     gridHeight = Math.floor(canvas.offsetHeight / size);
     gridWidth = Math.floor(canvas.offsetWidth / size);
