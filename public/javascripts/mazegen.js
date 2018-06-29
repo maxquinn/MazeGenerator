@@ -10,7 +10,7 @@ var gridWidth;
 var grid;
 var size;
 var playerColor;
-var difficulty;
+var difficulty = {};
 var keyState = {};
 var gameTimeout;
 var gameRunning = false;
@@ -75,7 +75,7 @@ var drawMaze = function() {
         grid = undefined;
         size = undefined;
         playerColor = undefined;
-        difficulty = undefined;
+        difficulty = {};
         keyState = {};
         playerXPos = undefined;
         playerYPos = undefined;
@@ -97,8 +97,11 @@ var drawMaze = function() {
     cC.clearRect(0, 0, canvas.width, canvas.height);
     playerColor = document.getElementById('playercolor').value;
     //Set up constants
-    difficulty = document.getElementById('difficulty');
-    size = difficulty.options[difficulty.selectedIndex].value;
+    const difficultyElement = document.getElementById('difficulty');
+    difficulty.value = difficultyElement.options[difficultyElement.selectedIndex].value;
+    difficulty.name = difficultyElement.options[difficultyElement.selectedIndex].text;
+
+    size = difficulty.value;
     grid = [];
 
     gridHeight = Math.floor(canvas.offsetHeight / size);
@@ -139,7 +142,7 @@ function Cell(x, y) {
 }
 
 Cell.prototype.drawCell = function() {
-    let levelName = difficulty.options[difficulty.selectedIndex].text;
+    let levelName = difficulty.name;
     if (levelName == 'Koga') {
         if (this.wall) {
             cC.drawImage(
@@ -397,7 +400,7 @@ var isLegalMove = function(x, y) {
         if (!grid[x][y].isWall()) {
             if (grid[x][y].end == true) {
                 stopGameLoop();
-                addHighscore(difficulty.options[difficulty.selectedIndex].text);
+                addHighscore(difficulty.name);
             }
             return true;
         }
