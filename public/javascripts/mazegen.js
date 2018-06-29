@@ -10,7 +10,7 @@ var gridWidth;
 var grid;
 var size;
 var playerColor;
-var difficulty;
+var difficulty = {};
 var keyState = {};
 var gameTimeout;
 var gameRunning = false;
@@ -18,16 +18,41 @@ var timerLoop = 0;
 
 var playerXPos;
 var playerYPos;
+var playerFacing;
 
 var startTime;
 var currentTime = 0;
 var gameRunTime = '0.0';
 var gameTimeDisplay = document.getElementById('gameTimeDisplay');
 
-var wallImage = new Image(size, size);
-var floorImage = new Image(size, size);
-wallImage.src = '/public/sprites/koga-wall.png';
-floorImage.src = '/public/sprites/koga-floor.png';
+var wallImage = new Image();
+var floorImage = new Image();
+var leftPlayerImage = new Image();
+var rightPlayerImage = new Image();
+var upPlayerImage = new Image();
+var downKogaImage = new Image();
+var leftKogaImage = new Image();
+var rightKogaImage = new Image();
+var upKogaImage = new Image();
+var downPlayerImage = new Image();
+var kogaPathUp = new Image();
+var kogaPathDown = new Image();
+var kogaPathLeft = new Image();
+var kogaPathRight = new Image();
+wallImage.src = '/public/sprites/koga/game/wall.png';
+floorImage.src = '/public/sprites/koga/game/floor.png';
+leftPlayerImage.src = '/public/sprites/koga/player/left.png';
+rightPlayerImage.src = '/public/sprites/koga/player/right.png';
+upPlayerImage.src = '/public/sprites/koga/player/up.png';
+downPlayerImage.src = '/public/sprites/koga/player/down.png';
+leftKogaImage.src = '/public/sprites/koga/koga/left.png';
+rightKogaImage.src = '/public/sprites/koga/koga/right.png';
+upKogaImage.src = '/public/sprites/koga/koga/up.png';
+downKogaImage.src = '/public/sprites/koga/koga/down.png';
+kogaPathUp.src = '/public/sprites/koga/path/up.png';
+kogaPathDown.src = '/public/sprites/koga/path/down.png';
+kogaPathLeft.src = '/public/sprites/koga/path/left.png';
+kogaPathRight.src = '/public/sprites/koga/path/right.png';
 
 $(document).ready(function() {
     canvas = null;
@@ -50,10 +75,11 @@ var drawMaze = function() {
         grid = undefined;
         size = undefined;
         playerColor = undefined;
-        difficulty = undefined;
+        difficulty = {};
         keyState = {};
         playerXPos = undefined;
         playerYPos = undefined;
+        playerFacing = undefined;
         stopGameLoop();
     }
     div = document.getElementById('canvascontainer');
@@ -71,8 +97,11 @@ var drawMaze = function() {
     cC.clearRect(0, 0, canvas.width, canvas.height);
     playerColor = document.getElementById('playercolor').value;
     //Set up constants
-    difficulty = document.getElementById('difficulty');
-    size = difficulty.options[difficulty.selectedIndex].value;
+    const difficultyElement = document.getElementById('difficulty');
+    difficulty.value = difficultyElement.options[difficultyElement.selectedIndex].value;
+    difficulty.name = difficultyElement.options[difficultyElement.selectedIndex].text;
+
+    size = difficulty.value;
     grid = [];
 
     gridHeight = Math.floor(canvas.offsetHeight / size);
@@ -106,11 +135,14 @@ function Cell(x, y) {
     this.end = false;
     this.neighborList = [];
     this.neighborList2 = [];
-    this.answer = false;
+    this.answer = {
+        isAnswer: false,
+        nextDirection: 'none'
+    };
 }
 
 Cell.prototype.drawCell = function() {
-    let levelName = difficulty.options[difficulty.selectedIndex].text;
+    let levelName = difficulty.name;
     if (levelName == 'Koga') {
         if (this.wall) {
             cC.drawImage(
@@ -130,16 +162,62 @@ Cell.prototype.drawCell = function() {
             );
         }
         if (this.player) {
-            cC.fillStyle = '#' + playerColor;
-            cC.fillRect(this.row * size, this.col * size, size, size);
-        } else if (this.answer) {
-            //TODO itemfinder arrows?
-            cC.fillStyle = '#00ff00';
-            cC.fillRect(this.row * size, this.col * size, size, size);
+            let spriteToDraw;
+            switch (playerFacing) {
+                case 'left':
+                    spriteToDraw = leftPlayerImage;
+                    break;
+                case 'right':
+                    spriteToDraw = rightPlayerImage;
+                    break;
+                case 'up':
+                    spriteToDraw = upPlayerImage;
+                    break;
+                case 'down':
+                    spriteToDraw = downPlayerImage;
+                    break;
+            }
+            cC.drawImage(
+                spriteToDraw,
+                this.row * size,
+                this.col * size,
+                size,
+                size
+            );
+        } else if (this.answer.isAnswer) {
+            let spriteToDraw;
+            switch (this.answer.nextDirection) {
+                case 'left':
+                    spriteToDraw = kogaPathLeft;
+                    break;
+                case 'right':
+                    spriteToDraw = kogaPathRight;
+                    break;
+                case 'up':
+                    spriteToDraw = kogaPathUp;
+                    break;
+                case 'down':
+                    spriteToDraw = kogaPathDown;
+                    break;
+                default:
+                    spriteToDraw = kogaPathRight;
+            }
+            cC.drawImage(
+                spriteToDraw,
+                this.row * size,
+                this.col * size,
+                size,
+                size
+            );
         }
         if (this.end) {
-            cC.fillStyle = '#ff0000';
-            cC.fillRect(this.row * size, this.col * size, size, size);
+            cC.drawImage(
+                downKogaImage,
+                this.row * size,
+                this.col * size,
+                size,
+                size
+            );
         }
     } else {
         if (this.wall) {
@@ -151,7 +229,7 @@ Cell.prototype.drawCell = function() {
         if (this.player) {
             cC.fillStyle = '#' + playerColor;
             cC.fillRect(this.row * size, this.col * size, size, size);
-        } else if (this.answer) {
+        } else if (this.answer.isAnswer) {
             cC.fillStyle = '#00ff00';
             cC.fillRect(this.row * size, this.col * size, size, size);
         }
@@ -322,7 +400,7 @@ var isLegalMove = function(x, y) {
         if (!grid[x][y].isWall()) {
             if (grid[x][y].end == true) {
                 stopGameLoop();
-                addHighscore(difficulty.options[difficulty.selectedIndex].text);
+                addHighscore(difficulty.name);
             }
             return true;
         }
@@ -336,6 +414,7 @@ var startGame = function() {
     gameRunning = true;
     playerXPos = 0;
     playerYPos = 1;
+    playerFacing = 'right';
     grid[playerXPos][playerYPos].setPlayerCell();
     startGameTimer();
     gameLoop();
@@ -375,6 +454,7 @@ function gameLoop() {
         if (isLegalMove(playerXPos - 1, playerYPos)) {
             grid[playerXPos][playerYPos].removePlayerCell();
             playerXPos -= 1;
+            playerFacing = 'left';
             grid[playerXPos][playerYPos].setPlayerCell();
         }
     }
@@ -383,6 +463,7 @@ function gameLoop() {
         if (isLegalMove(playerXPos + 1, playerYPos)) {
             grid[playerXPos][playerYPos].removePlayerCell();
             playerXPos += 1;
+            playerFacing = 'right';
             grid[playerXPos][playerYPos].setPlayerCell();
         }
     }
@@ -391,6 +472,7 @@ function gameLoop() {
         if (isLegalMove(playerXPos, playerYPos - 1)) {
             grid[playerXPos][playerYPos].removePlayerCell();
             playerYPos -= 1;
+            playerFacing = 'up';
             grid[playerXPos][playerYPos].setPlayerCell();
         }
     }
@@ -399,10 +481,10 @@ function gameLoop() {
         if (isLegalMove(playerXPos, playerYPos + 1)) {
             grid[playerXPos][playerYPos].removePlayerCell();
             playerYPos += 1;
+            playerFacing = 'down';
             grid[playerXPos][playerYPos].setPlayerCell();
         }
     }
-
     drawSurroundingCells();
     gameTimeout = setTimeout(gameLoop, 50);
 }
@@ -510,10 +592,23 @@ function showPath() {
     var start = graph.grid[0][1];
     var end = graph.grid[gridWidth - 1][gridHeight - 1 - 1];
     var answer = astar.search(graph, start, end);
-    var cell;
-    while ((cell = answer.pop()) != null) {
-        grid[cell.x][cell.y].answer = true;
-    }
+    answer.forEach((element, index, ogArray) => {
+        let nextIndex = index++ < ogArray.length - 1 ? index++ : 0;
+        if (element.x > ogArray[nextIndex].x) {
+            element.nextDirection = 'left';
+        }
+        if (element.x < ogArray[nextIndex].x) {
+            element.nextDirection = 'right';
+        }
+        if (element.y > ogArray[nextIndex].y) {
+            element.nextDirection = 'up';
+        }
+        if (element.y < ogArray[nextIndex].y) {
+            element.nextDirection = 'down';
+        }
+        grid[element.x][element.y].answer.isAnswer = true;
+        grid[element.x][element.y].answer.nextDirection = element.nextDirection;
+    });
     drawItAll();
 }
 
