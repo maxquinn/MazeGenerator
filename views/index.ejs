@@ -15,10 +15,13 @@
 	<div class="container">
 		<h1>Client Procrastination Analysis</h1>
 		<div class="row">
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<h2>Player Color:</h2><input id="playercolor" class="jscolor" value="4286f4">
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
+				<h2>Random Seed:</h2><input id="seed" class="num" value="">
+			</div>
+			<div class="col-sm-3">
 				<select id="difficulty">
 					<option value="63">Kris</option>
 					<option value="43">Easy</option>
@@ -29,7 +32,7 @@
 					<option value="43">Koga</option>
 				</select>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<button id="mazeGenButton">Create Maze</button>
 			</div>
 		</div>
@@ -166,6 +169,7 @@
 															<script src="../public/javascripts/bootstrap.min.js"></script>
 															<script type="text/javascript" src="../public/javascripts/mazegen.js"></script>
 															<script type="text/javascript" src="../public/javascripts/astar.js"></script>
+															<script type="text/javascript" src="../public/javascripts/prng.js"></script>
 														</body>
 														
 														</html>

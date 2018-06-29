@@ -16,6 +16,9 @@ var gameTimeout;
 var gameRunning = false;
 var timerLoop = 0;
 
+var lastSeed;
+var random;
+
 var playerXPos;
 var playerYPos;
 
@@ -77,6 +80,14 @@ var drawMaze = function() {
 
     gridHeight = Math.floor(canvas.offsetHeight / size);
     gridWidth = Math.floor(canvas.offsetWidth / size);
+
+    var seed = document.getElementById('seed').value
+    if(seed === "" || seed === lastSeed){
+        seed = parseInt(Math.random() * 2147483647);
+        document.getElementById('seed').value = seed;
+    }
+    lastSeed = seed;
+    random = new Random(seed);
 
     //create 2D array or array of arrays and fill with cells
     for (let row = 0; row < gridHeight; row++) {
@@ -209,7 +220,7 @@ function shuffle(array) {
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
         // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
+        randomIndex = Math.floor(random.nextFloat() * currentIndex);
         currentIndex -= 1;
 
         // And swap it with the current element.
