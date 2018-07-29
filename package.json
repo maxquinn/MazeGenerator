@@ -1,22 +1,42 @@
 {
-  "name": "itsmaze",
+  "name": "flavourmaze",
   "version": "1.0.0",
-  "engines": {
-    "node": "6.9.4"
-  },
+  "description": "Remake of the ITS Maze - better than ever",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon --exec babel-node app.js --ignore src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxquinn/MazeGenerator.git"
+  },
+  "keywords": [
+    "react",
+    "maze",
+    "game"
+  ],
+  "author": "Max Quinn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxquinn/MazeGenerator/issues"
+  },
+  "homepage": "https://github.com/maxquinn/MazeGenerator#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.2",
+    "webpack-dev-middleware": "^3.1.3",
+    "webpack-livereload-plugin": "^2.1.1"
   },
   "dependencies": {
-    "body-parser": "~1.15.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "ejs": "^2.5.5",
-    "express": "~4.14.0",
-    "mongodb": "^2.2.8",
-    "mongoose": "^4.7.0",
-    "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "express": "^4.16.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   }
 }
