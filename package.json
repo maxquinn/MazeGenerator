@@ -4,8 +4,8 @@
   "description": "Remake of the ITS Maze - better than ever",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js --ignore src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node app.js --ignore src"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,14 @@
   },
   "homepage": "https://github.com/maxquinn/MazeGenerator#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/node": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "@babel/preset-react": "^7.0.0-beta.55",
+    "babel-loader": "^8.0.0-beta.4",
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "nodemon": "^1.18.3",
     "style-loader": "^0.21.0",
     "webpack": "^4.16.2",
     "webpack-dev-middleware": "^3.1.3",
