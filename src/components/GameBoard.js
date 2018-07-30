@@ -35,14 +35,10 @@ class GameBoard extends React.Component {
         window.addEventListener('resize', this.handleResize);
         this.setState(
             {
-                ctx: this.refs.canvas.getContext('2d'),
-                boardSize:
-                    Math.min(window.innerHeight, window.innerWidth) *
-                    this.WINDOW_SIZE_MULTIPLIER,
-                grid: this.generateGrid(this.state.difficulty)
+                ctx: this.refs.canvas.getContext('2d')
             },
             () => {
-                this.drawGrid();
+                this.handleResize();
             }
         );
     }
@@ -52,16 +48,22 @@ class GameBoard extends React.Component {
     }
 
     handleResize() {
-        this.setState({
-            boardSize:
-                Math.min(window.innerHeight, window.innerWidth) *
-                this.WINDOW_SIZE_MULTIPLIER,
-            grid: this.generateGrid(this.state.difficulty)
-        });
-        this.drawGrid();
+        let nextBoardSize =
+            Math.min(window.innerHeight, window.innerWidth) *
+            this.WINDOW_SIZE_MULTIPLIER;
+        this.setState(
+            {
+                boardSize: nextBoardSize,
+                grid: this.generateGrid(this.state.difficulty, nextBoardSize)
+            },
+            () => {
+                this.drawGrid();
+            }
+        );
     }
 
-    generateGrid(gridSize) {
+    generateGrid(gridSize, boardSize) {
+        console.log(this.state);
         let grid = [];
         for (let row = 0; row < gridSize; row++) {
             grid[row] = [];
@@ -69,7 +71,7 @@ class GameBoard extends React.Component {
                 grid[row][col] = new Cell(
                     row,
                     col,
-                    Math.floor(this.state.boardSize / this.state.difficulty)
+                    Math.floor(boardSize / this.state.difficulty)
                 );
             }
         }
@@ -77,7 +79,6 @@ class GameBoard extends React.Component {
     }
 
     drawGrid() {
-        console.log('here');
         this.state.grid.forEach(item => {
             item.forEach(cell => {
                 cell.draw(this.state.ctx);
