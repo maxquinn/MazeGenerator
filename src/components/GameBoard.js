@@ -48,9 +48,7 @@ class GameBoard extends React.Component {
                 boardSize: nextBoardSize
             },
             () => {
-                this.resizeGrid(
-                    Math.floor(nextBoardSize / this.state.difficulty)
-                );
+                this.resizeGrid(nextBoardSize / this.state.difficulty);
                 this.drawGrid();
             }
         );
@@ -64,7 +62,7 @@ class GameBoard extends React.Component {
                 grid[row][col] = new Wall(
                     row,
                     col,
-                    Math.floor(boardSize / this.state.difficulty)
+                    boardSize / this.state.difficulty
                 );
             }
         }
