@@ -23,8 +23,8 @@ export function forgeTheLabyrinth(row, col, stateGrid) {
             if (
                 neighbor.row == currentCell.row - 2 ||
                 neighbor.row == currentCell.row + 2 ||
-                neighbor.row == currentCell.col - 2 ||
-                neighbor.row == currentCell.col + 2
+                neighbor.col == currentCell.col - 2 ||
+                neighbor.col == currentCell.col + 2
             ) {
                 grid[nextNeighbor.row][nextNeighbor.col] = new Cell(
                     nextNeighbor.row,
