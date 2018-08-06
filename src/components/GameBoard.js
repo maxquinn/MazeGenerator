@@ -1,5 +1,6 @@
 import React from 'react';
 import Wall from '../classes/Wall';
+import Player from '../classes/Player';
 import { forgeTheLabyrinth } from '../helpers/forgeTheLabyrinth';
 
 class GameBoard extends React.Component {
@@ -31,6 +32,7 @@ class GameBoard extends React.Component {
                 this.setState({
                     grid: forgeTheLabyrinth(1, 1, this.state.grid)
                 });
+                this.startGame();
             }
         );
     }
@@ -83,6 +85,14 @@ class GameBoard extends React.Component {
                 cell.draw(this.state.ctx);
             });
         });
+    }
+
+    startGame() {
+        this.state.grid[1][1] = new Player(
+            1,
+            1,
+            this.state.boardSize / this.state.difficulty
+        );
     }
 
     render() {

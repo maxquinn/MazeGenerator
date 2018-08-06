@@ -1,11 +1,11 @@
-import Cell from '../classes/Cell';
+import Path from '../classes/Path';
 import { findNeighbors } from './findNeighbors';
 import { shuffle } from './shuffle';
 
 export function forgeTheLabyrinth(row, col, stateGrid) {
     let grid = stateGrid;
     let currentCell = grid[row][col];
-    grid[row][col] = new Cell(
+    grid[row][col] = new Path(
         currentCell.row,
         currentCell.col,
         currentCell.size
@@ -26,7 +26,7 @@ export function forgeTheLabyrinth(row, col, stateGrid) {
                 neighbor.col == currentCell.col - 2 ||
                 neighbor.col == currentCell.col + 2
             ) {
-                grid[nextNeighbor.row][nextNeighbor.col] = new Cell(
+                grid[nextNeighbor.row][nextNeighbor.col] = new Path(
                     nextNeighbor.row,
                     nextNeighbor.col,
                     nextNeighbor.size
