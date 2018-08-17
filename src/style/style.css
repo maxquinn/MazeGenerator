@@ -17,6 +17,7 @@ body {
 /* Layout Styles */
 .Component_Layout-container {
     padding: 10px 0;
+    justify-content: center;
 }
 
 .Component_Layout-mazeContainer {
@@ -27,6 +28,7 @@ body {
 /* GameBoard Styles */
 .Component_GameBoard-canvas {
     margin: auto; /* for centering */
+    display: flex;
     border: 1px solid #000000;
 }
 
@@ -35,6 +37,7 @@ body {
     display: flex;
     justify-content: space-around;
 }
+
 
 button {
     height: 40px;

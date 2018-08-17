@@ -25,6 +25,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
     "@babel/node": "^7.0.0-beta.55",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-rc.1",
     "@babel/preset-env": "^7.0.0-beta.55",
     "@babel/preset-react": "^7.0.0-beta.55",
     "babel-loader": "^8.0.0-beta.4",
@@ -38,7 +39,9 @@
   },
   "dependencies": {
     "express": "^4.16.3",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "react-game-kit": "^1.0.6"
   }
 }

@@ -1,7 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Wall from '../classes/Wall';
 import Player from '../classes/Player';
 import { forgeTheLabyrinth } from '../helpers/forgeTheLabyrinth';
+
+let keyPressed = e => {};
+
+let keyReleased = e => {};
 
 class GameBoard extends React.Component {
     constructor(props) {
@@ -12,12 +17,20 @@ class GameBoard extends React.Component {
             boardSize: 0,
             ctx: undefined,
             difficulty: 11,
-            grid: undefined
+            grid: undefined,
+            keysPressed: []
         };
     }
 
+    static contextTypes = {
+        loop: PropTypes.object
+    };
+
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
+        window.addEventListener('keydown', keyPressed, true);
+        window.addEventListener('keyup', keyReleased, true);
+        this.context.loop.subscribe(this.loop);
         let boardSize =
             Math.min(window.innerHeight, window.innerWidth) *
             this.WINDOW_SIZE_MULTIPLIER;
@@ -39,6 +52,9 @@ class GameBoard extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
+        window.removeEventListener('keydown', keyPressed, true);
+        window.removeEventListener('keyup', keyReleased, true);
+        this.context.loop.unsubscribe(this.loop);
     }
 
     handleResize() {
@@ -93,6 +109,10 @@ class GameBoard extends React.Component {
             1,
             this.state.boardSize / this.state.difficulty
         );
+    }
+
+    loop() {
+        // Game loop
     }
 
     render() {

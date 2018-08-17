@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './components/Layout';
-import GameBoard from './components/GameBoard';
+import Game from './components/Game';
 import ControlPanel from './components/ControlPanel';
 
 import './style/style.css';
@@ -25,7 +25,7 @@ class App extends React.Component {
         return (
             <Layout>
                 <ControlPanel handleGameStart={this.startGame} />
-                {this.state.gameInProgress && <GameBoard />}
+                {this.state.gameInProgress && <Game />}
             </Layout>
         );
     }
