@@ -3,22 +3,21 @@ import PropTypes from 'prop-types';
 import Wall from '../classes/Wall';
 import Player from '../classes/Player';
 import { forgeTheLabyrinth } from '../helpers/forgeTheLabyrinth';
-
-let keyPressed = e => {};
-
-let keyReleased = e => {};
+import InputManager from '../classes/InputManager';
 
 class GameBoard extends React.Component {
     constructor(props) {
         super(props);
         this.WINDOW_SIZE_MULTIPLIER = 0.7;
         this.handleResize = this.handleResize.bind(this);
+        this.loop = this.loop.bind(this);
         this.state = {
             boardSize: 0,
             ctx: undefined,
             difficulty: 11,
             grid: undefined,
-            keysPressed: []
+            player: undefined,
+            input: new InputManager()
         };
     }
 
@@ -28,8 +27,7 @@ class GameBoard extends React.Component {
 
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
-        window.addEventListener('keydown', keyPressed, true);
-        window.addEventListener('keyup', keyReleased, true);
+        this.state.input.bindKeys();
         this.context.loop.subscribe(this.loop);
         let boardSize =
             Math.min(window.innerHeight, window.innerWidth) *
@@ -52,8 +50,7 @@ class GameBoard extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
-        window.removeEventListener('keydown', keyPressed, true);
-        window.removeEventListener('keyup', keyReleased, true);
+        this.state.input.unbindKeys();
         this.context.loop.unsubscribe(this.loop);
     }
 
@@ -103,17 +100,36 @@ class GameBoard extends React.Component {
         });
     }
 
-    startGame() {
-        this.state.grid[1][1] = new Player(
-            1,
-            1,
-            this.state.boardSize / this.state.difficulty
-        );
+    createMovementOverlay() {
+        let movementOverlay = this.state.grid.map((value, row) => {
+            value.map((value, col) => {
+                if (value == typeof Wall) {
+                }
+            });
+        });
     }
 
-    loop() {
-        // Game loop
+    startGame() {
+        this.createMovementOverlay();
+        // this.setState({
+        //     movementOverlay: this.createMovementOverlay()
+        // });
+        // this.setState(
+        //     {
+        //         player: new Player(
+        //             1,
+        //             1,
+        //             this.state.boardSize / this.state.difficulty
+        //         )
+        //     },
+        //     () => {
+        //         this.state.grid[1][1] = this.state.player;
+        //         this.state.player.draw(this.state.ctx);
+        //     }
+        // );
     }
+
+    loop() {}
 
     render() {
         return (
