@@ -9,10 +9,33 @@ export default class Player extends Cell {
     draw(context) {
         context.fillStyle = this.getFillStyle();
         context.fillRect(
-            this.row * this.size,
-            this.col * this.size,
+            this.x * this.size,
+            this.y * this.size,
             this.size,
             this.size
         );
+    }
+
+    getPosition() {
+        return {
+            y: this.y,
+            x: this.x
+        };
+    }
+
+    moveLeft() {
+        this.y--;
+    }
+
+    moveRight() {
+        this.y++;
+    }
+
+    moveUp() {
+        this.x--;
+    }
+
+    moveDown() {
+        this.x++;
     }
 }

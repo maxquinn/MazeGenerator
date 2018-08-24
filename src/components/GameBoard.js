@@ -101,35 +101,61 @@ class GameBoard extends React.Component {
     }
 
     createMovementOverlay() {
-        let movementOverlay = this.state.grid.map((value, row) => {
-            value.map((value, col) => {
-                if (value == typeof Wall) {
+        return this.state.grid.map(row => {
+            return row.map(col => {
+                if (col instanceof Wall) {
+                    return false;
+                } else {
+                    return true;
                 }
             });
         });
     }
 
     startGame() {
-        this.createMovementOverlay();
-        // this.setState({
-        //     movementOverlay: this.createMovementOverlay()
-        // });
-        // this.setState(
-        //     {
-        //         player: new Player(
-        //             1,
-        //             1,
-        //             this.state.boardSize / this.state.difficulty
-        //         )
-        //     },
-        //     () => {
-        //         this.state.grid[1][1] = this.state.player;
-        //         this.state.player.draw(this.state.ctx);
-        //     }
-        // );
+        this.setState({
+            movementOverlay: this.createMovementOverlay()
+        });
+        this.setState(
+            {
+                player: new Player(
+                    1,
+                    1,
+                    this.state.boardSize / this.state.difficulty
+                )
+            },
+            () => {
+                this.state.grid[1][1] = this.state.player;
+                this.state.player.draw(this.state.ctx);
+            }
+        );
     }
 
-    loop() {}
+    isLegalMove(row, col) {
+        if (
+            row < 0 ||
+            row >= this.state.movementOverlay.length ||
+            col < 0 ||
+            col >= this.state.movementOverlay[0].length
+        )
+            return false;
+        return this.state.movementOverlay[row][col];
+    }
+
+    loop() {
+        if (this.state.input.pressedKeys.left) console.log('left');
+        if (this.state.input.pressedKeys.right) {
+            let playerPosition = this.state.player.getPosition();
+            if (this.isLegalMove(playerPosition.row, playerPosition.col)) {
+                console.log('moveRight');
+                this.state.player.moveRight();
+            } else {
+                console.log('cant move right anymore');
+            }
+        }
+        if (this.state.input.pressedKeys.up) console.log('up');
+        if (this.state.input.pressedKeys.down) console.log('down');
+    }
 
     render() {
         return (

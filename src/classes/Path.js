@@ -7,8 +7,8 @@ export default class Path extends Cell {
 
     draw(context) {
         context.clearRect(
-            this.row * this.size,
-            this.col * this.size,
+            this.x * this.size,
+            this.y * this.size,
             this.size,
             this.size
         );

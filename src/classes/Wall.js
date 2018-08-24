@@ -9,8 +9,8 @@ export default class Wall extends Cell {
     draw(context) {
         context.fillStyle = this.getFillStyle();
         context.fillRect(
-            this.row * this.size,
-            this.col * this.size,
+            this.x * this.size,
+            this.y * this.size,
             this.size,
             this.size
         );
