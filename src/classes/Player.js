@@ -18,24 +18,24 @@ export default class Player extends Cell {
 
     getPosition() {
         return {
-            y: this.y,
-            x: this.x
+            x: this.x,
+            y: this.y
         };
     }
 
     moveLeft() {
-        this.y--;
-    }
-
-    moveRight() {
-        this.y++;
-    }
-
-    moveUp() {
         this.x--;
     }
 
-    moveDown() {
+    moveRight() {
         this.x++;
+    }
+
+    moveUp() {
+        this.y--;
+    }
+
+    moveDown() {
+        this.y++;
     }
 }

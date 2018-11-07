@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loop } from 'react-game-kit';
+import Loop from './Loop';
 import GameBoard from './GameBoard';
 
 class Game extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Wall from '../classes/Wall';
 import Player from '../classes/Player';
+import Grid from '../classes/Grid';
 import { forgeTheLabyrinth } from '../helpers/forgeTheLabyrinth';
 import InputManager from '../classes/InputManager';
 
@@ -10,39 +10,34 @@ class GameBoard extends React.Component {
         super(props);
         this.WINDOW_SIZE_MULTIPLIER = 0.7;
         this.handleResize = this.handleResize.bind(this);
-        this.loop = this.loop.bind(this);
         this.state = {
             boardSize: 0,
             ctx: undefined,
             difficulty: 11,
             grid: undefined,
-            player: undefined,
             input: new InputManager()
         };
     }
 
-    static contextTypes = {
-        loop: PropTypes.object
-    };
+    static contextType = GameContext;
+    //bind this.context.loop
 
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
         this.state.input.bindKeys();
-        this.context.loop.subscribe(this.loop);
         let boardSize =
             Math.min(window.innerHeight, window.innerWidth) *
             this.WINDOW_SIZE_MULTIPLIER;
         this.setState(
-            {
-                ctx: this.refs.canvas.getContext('2d'),
-                boardSize: boardSize,
-                grid: this.generateGrid(this.state.difficulty, boardSize)
+            prevState => {
+                return {
+                    ctx: this.refs.canvas.getContext('2d'),
+                    boardSize: boardSize,
+                    grid: new Grid(prevState.difficulty, boardSize)
+                };
             },
             () => {
                 this.handleResize();
-                this.setState({
-                    grid: forgeTheLabyrinth(1, 1, this.state.grid)
-                });
                 this.startGame();
             }
         );
@@ -51,110 +46,112 @@ class GameBoard extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
         this.state.input.unbindKeys();
-        this.context.loop.unsubscribe(this.loop);
     }
 
     handleResize() {
         let nextBoardSize =
             Math.min(window.innerHeight, window.innerWidth) *
             this.WINDOW_SIZE_MULTIPLIER;
-        this.setState(
-            {
-                boardSize: nextBoardSize
-            },
-            () => {
-                this.resizeGrid(nextBoardSize / this.state.difficulty);
-                this.drawGrid();
-            }
-        );
-    }
-
-    generateGrid(gridSize, boardSize) {
-        let grid = [];
-        for (let row = 0; row < gridSize; row++) {
-            grid[row] = [];
-            for (let col = 0; col < gridSize; col++) {
-                grid[row][col] = new Wall(
-                    row,
-                    col,
-                    boardSize / this.state.difficulty
-                );
-            }
-        }
-        return grid;
-    }
-
-    resizeGrid(size) {
-        this.state.grid.forEach(item => {
-            item.forEach(cell => {
-                cell.setSize(size);
-            });
-        });
-    }
-
-    drawGrid() {
-        this.state.grid.forEach(item => {
-            item.forEach(cell => {
-                cell.draw(this.state.ctx);
-            });
-        });
-    }
-
-    createMovementOverlay() {
-        return this.state.grid.map(row => {
-            return row.map(col => {
-                if (col instanceof Wall) {
-                    return false;
-                } else {
-                    return true;
-                }
-            });
+        this.setState(prevState => {
+            let newGrid = prevState.grid;
+            newGrid.resize(nextBoardSize / prevState.difficulty);
+            return {
+                boardSize: nextBoardSize,
+                grid: newGrid
+            };
         });
     }
 
     startGame() {
-        this.setState({
-            movementOverlay: this.createMovementOverlay()
+        this.setState(prevState => {
+            let mazeGrid = prevState.grid;
+            mazeGrid.setBoard(forgeTheLabyrinth(1, 1, this.state.grid.board));
+            mazeGrid.addPlayer(
+                new Player(1, 1, this.state.boardSize / this.state.difficulty)
+            );
+            return {
+                grid: mazeGrid
+            };
         });
-        this.setState(
-            {
-                player: new Player(
-                    1,
-                    1,
-                    this.state.boardSize / this.state.difficulty
-                )
-            },
-            () => {
-                this.state.grid[1][1] = this.state.player;
-                this.state.player.draw(this.state.ctx);
-            }
-        );
     }
 
-    isLegalMove(row, col) {
-        if (
-            row < 0 ||
-            row >= this.state.movementOverlay.length ||
-            col < 0 ||
-            col >= this.state.movementOverlay[0].length
-        )
-            return false;
-        return this.state.movementOverlay[row][col];
+    update() {
+        if (this.state.input.pressedKeys.left) {
+            if (
+                this.state.grid.isLegalMove(
+                    this.state.grid.player.x - 1,
+                    this.state.grid.player.y
+                )
+            ) {
+                this.setState(prevState => {
+                    let newGrid = prevState.grid;
+                    newGrid.movePlayerLeft();
+                    return {
+                        grid: newGrid
+                    };
+                });
+            }
+        }
+        if (this.state.input.pressedKeys.right) {
+            if (
+                this.state.grid.isLegalMove(
+                    this.state.grid.player.x + 1,
+                    this.state.grid.player.y
+                )
+            ) {
+                this.setState(prevState => {
+                    let newGrid = prevState.grid;
+                    newGrid.movePlayerRight();
+                    return {
+                        grid: newGrid
+                    };
+                });
+            }
+        }
+        if (this.state.input.pressedKeys.up) {
+            if (
+                this.state.grid.isLegalMove(
+                    this.state.grid.player.x,
+                    this.state.grid.player.y - 1
+                )
+            ) {
+                this.setState(prevState => {
+                    let newGrid = prevState.grid;
+                    newGrid.movePlayerUp();
+                    return {
+                        grid: newGrid
+                    };
+                });
+            }
+        }
+        if (this.state.input.pressedKeys.down) {
+            if (
+                this.state.grid.isLegalMove(
+                    this.state.grid.player.x,
+                    this.state.grid.player.y + 1
+                )
+            ) {
+                this.setState(prevState => {
+                    let newGrid = prevState.grid;
+                    newGrid.movePlayerDown();
+                    return {
+                        grid: newGrid
+                    };
+                });
+            }
+        }
+        if (this.state.grid && this.state.grid.player) {
+            this.state.grid.player.draw(this.state.ctx);
+        }
     }
 
     loop() {
-        if (this.state.input.pressedKeys.left) console.log('left');
-        if (this.state.input.pressedKeys.right) {
-            let playerPosition = this.state.player.getPosition();
-            if (this.isLegalMove(playerPosition.row, playerPosition.col)) {
-                console.log('moveRight');
-                this.state.player.moveRight();
-            } else {
-                console.log('cant move right anymore');
-            }
-        }
-        if (this.state.input.pressedKeys.up) console.log('up');
-        if (this.state.input.pressedKeys.down) console.log('down');
+        console.log('start');
+    }
+
+    componentDidUpdate() {
+        if (this.state.grid && this.state.ctx)
+            this.state.grid.draw(this.state.ctx);
     }
 
     render() {

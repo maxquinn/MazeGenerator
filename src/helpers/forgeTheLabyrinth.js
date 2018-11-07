@@ -2,14 +2,10 @@ import Path from '../classes/Path';
 import { findNeighbors } from './findNeighbors';
 import { shuffle } from './shuffle';
 
-export function forgeTheLabyrinth(row, col, stateGrid) {
+export function forgeTheLabyrinth(x, y, stateGrid) {
     let grid = stateGrid;
-    let currentCell = grid[row][col];
-    grid[row][col] = new Path(
-        currentCell.row,
-        currentCell.col,
-        currentCell.size
-    );
+    let currentCell = grid[x][y];
+    grid[x][y] = new Path(currentCell.x, currentCell.y, currentCell.size);
 
     currentCell.setNeighbors(findNeighbors(currentCell, grid));
 
@@ -21,17 +17,17 @@ export function forgeTheLabyrinth(row, col, stateGrid) {
 
         nextNeighbor.neighbors.forEach(neighbor => {
             if (
-                neighbor.row == currentCell.row - 2 ||
-                neighbor.row == currentCell.row + 2 ||
-                neighbor.col == currentCell.col - 2 ||
-                neighbor.col == currentCell.col + 2
+                neighbor.x == currentCell.x - 2 ||
+                neighbor.x == currentCell.x + 2 ||
+                neighbor.y == currentCell.y - 2 ||
+                neighbor.y == currentCell.y + 2
             ) {
-                grid[nextNeighbor.row][nextNeighbor.col] = new Path(
-                    nextNeighbor.row,
-                    nextNeighbor.col,
+                grid[nextNeighbor.x][nextNeighbor.y] = new Path(
+                    nextNeighbor.x,
+                    nextNeighbor.y,
                     nextNeighbor.size
                 );
-                forgeTheLabyrinth(neighbor.row, neighbor.col, grid);
+                forgeTheLabyrinth(neighbor.x, neighbor.y, grid);
             }
         });
         currentCell.neighbors.pop();
