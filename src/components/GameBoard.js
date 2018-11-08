@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Player from '../classes/Player';
 import Grid from '../classes/Grid';
 import { forgeTheLabyrinth } from '../helpers/forgeTheLabyrinth';
@@ -18,9 +17,6 @@ class GameBoard extends React.Component {
             input: new InputManager()
         };
     }
-
-    static contextType = GameContext;
-    //bind this.context.loop
 
     componentDidMount() {
         window.addEventListener('resize', this.handleResize);
@@ -73,6 +69,7 @@ class GameBoard extends React.Component {
                 grid: mazeGrid
             };
         });
+        this.loop();
     }
 
     update() {
@@ -146,7 +143,9 @@ class GameBoard extends React.Component {
     }
 
     loop() {
-        console.log('start');
+        this.interval = setInterval(() => {
+            this.update();
+        }, 50);
     }
 
     componentDidUpdate() {
