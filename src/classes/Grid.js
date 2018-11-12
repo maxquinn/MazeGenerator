@@ -24,6 +24,7 @@ export default class Grid {
                 cell.setSize(size);
             });
         });
+        this.player?.setSize(size);
     }
 
     draw(context) {
@@ -32,6 +33,7 @@ export default class Grid {
                 cell.draw(context);
             });
         });
+        this.player?.draw(context);
     }
 
     createMovementOverlay() {
@@ -58,47 +60,22 @@ export default class Grid {
     }
 
     addPlayer(player) {
-        let position = player.getPosition();
-        this.board[position.x][position.y] = this.player = player;
+        this.player = player;
     }
 
     movePlayerLeft() {
-        let originalPlayerPosition = this.player.getPosition();
         this.player.moveLeft();
-        this.swapKey(
-            this.board[originalPlayerPosition.x][originalPlayerPosition.y],
-            this.board[this.player.x][this.player.y]
-        );
     }
 
     movePlayerRight() {
-        let originalPlayerPosition = this.player.getPosition();
         this.player.moveRight();
-        this.swapKey(
-            this.board[originalPlayerPosition.x][originalPlayerPosition.y],
-            this.board[this.player.x][this.player.y]
-        );
     }
 
     movePlayerUp() {
-        let originalPlayerPosition = this.player.getPosition();
         this.player.moveUp();
-        this.swapKey(
-            this.board[originalPlayerPosition.x][originalPlayerPosition.y],
-            this.board[this.player.x][this.player.y]
-        );
     }
 
     movePlayerDown() {
-        let originalPlayerPosition = this.player.getPosition();
         this.player.moveDown();
-        this.swapKey(
-            this.board[originalPlayerPosition.x][originalPlayerPosition.y],
-            this.board[this.player.x][this.player.y]
-        );
-    }
-
-    swapKey(a, b) {
-        [a, b] = [b, a];
     }
 }

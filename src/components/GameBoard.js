@@ -148,7 +148,8 @@ class GameBoard extends React.Component {
         }, 50);
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+        // TODO: Look at making this more efficient
         if (this.state.grid && this.state.ctx)
             this.state.grid.draw(this.state.ctx);
     }

@@ -7,15 +7,15 @@ class Game extends React.Component {
         this.state = { number: 1 };
     }
 
-    componentDidMount() {
-        this.interval = setInterval(() => {
-            this.setState({ number: this.state.number + 1 });
-        }, 1000);
-    }
+    // componentDidMount() {
+    //     this.interval = setInterval(() => {
+    //         this.setState({ number: this.state.number + 1 });
+    //     }, 1000);
+    // }
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
+    // componentWillUnmount() {
+    //     clearInterval(this.interval);
+    // }
 
     render() {
         return <GameBoard />;
