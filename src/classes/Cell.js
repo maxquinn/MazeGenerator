@@ -6,8 +6,6 @@ export default class Cell {
         this.neighbors = [];
     }
 
-    draw(context) {}
-
     getFillStyle() {
         return this.fillStyle;
     }

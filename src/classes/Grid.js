@@ -1,4 +1,5 @@
 import Wall from './Wall';
+import Player from './Player';
 
 export default class Grid {
     constructor(gridSize, boardSize) {
@@ -10,7 +11,7 @@ export default class Grid {
             }
         }
         this.movementOverlay = this.createMovementOverlay();
-        this.player;
+        this.player = new Player(1, 1, boardSize / gridSize);
     }
 
     setBoard(newBoard) {
@@ -24,7 +25,7 @@ export default class Grid {
                 cell.setSize(size);
             });
         });
-        this.player?.setSize(size);
+        this.player.setSize(size);
     }
 
     draw(context) {
@@ -33,19 +34,19 @@ export default class Grid {
                 cell.draw(context);
             });
         });
-        this.player?.draw(context);
+        this.player.draw(context);
     }
 
     createMovementOverlay() {
-        this.movementOverlay = this.board.map(x => {
-            return x.map(y => {
+        this.movementOverlay = this.board.map(x =>
+            x.map(y => {
                 if (y instanceof Wall) {
                     return false;
                 } else {
                     return true;
                 }
-            });
-        });
+            })
+        );
     }
 
     isLegalMove(x, y) {
@@ -57,10 +58,6 @@ export default class Grid {
         )
             return false;
         return this.movementOverlay[x][y];
-    }
-
-    addPlayer(player) {
-        this.player = player;
     }
 
     movePlayerLeft() {

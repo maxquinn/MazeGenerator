@@ -1,6 +1,6 @@
 import Wall from '../classes/Wall';
 
-export function findNeighbors(cell, grid) {
+function findNeighbors(cell, grid) {
     let neighbors = [];
 
     if (cell.y - 1 >= 0) {
@@ -30,3 +30,5 @@ export function findNeighbors(cell, grid) {
 
     return neighbors;
 }
+
+export default findNeighbors;

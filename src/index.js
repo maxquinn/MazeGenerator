@@ -22,10 +22,11 @@ class App extends React.Component {
     }
 
     render() {
+        const { gameInProgress } = this.state;
         return (
             <Layout>
                 <ControlPanel handleGameStart={this.startGame} />
-                {this.state.gameInProgress && <Game />}
+                {gameInProgress && <Game />}
             </Layout>
         );
     }
