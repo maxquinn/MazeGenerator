@@ -12,7 +12,7 @@ class GameBoard extends React.Component {
         this.state = {
             boardSize: 0,
             ctx: undefined,
-            difficulty: 11,
+            difficulty: 43,
             grid: undefined,
             input: new InputManager()
         };

@@ -29,7 +29,6 @@ body {
 .Component_GameBoard-canvas {
     margin: auto; /* for centering */
     display: flex;
-    border: 1px solid #000000;
 }
 
 /* ControlPanel Styles */
