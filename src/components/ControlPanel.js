@@ -1,38 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import VideogameAsset from '@material-ui/icons/VideogameAsset';
+import Layers from '@material-ui/icons/Layers';
+import BarChart from '@material-ui/icons/BarChart';
+import Header from './Header';
 
+const styles = {
+    root: {
+        width: '100%',
+        position: 'absolute',
+        bottom: 0
+    }
+};
 class ControlPanel extends React.Component {
-    static propTypes = {
-        handleGameStart: PropTypes.func.isRequired
+    state = {
+        navValue: 1,
+        title: 'Play'
     };
 
-    constructor(props) {
-        super(props);
-        this.startGame = this.startGame.bind(this);
-    }
-
-    startGame() {
-        const { handleGameStart } = this.props;
-        handleGameStart();
-    }
+    handleChange = (event, value) => {
+        let { title } = this.state;
+        switch (value) {
+            case 0:
+                title = 'Hiscores';
+                break;
+            case 1:
+                title = 'Play';
+                break;
+            case 2:
+                title = 'Levels';
+                break;
+            default:
+                break;
+        }
+        this.setState({ navValue: value, title: title });
+    };
 
     render() {
+        const { classes } = this.props;
+        const { navValue, title } = this.state;
+
         return (
-            <div className="Component_ControlPanel-parentContainer">
-                <div className="Component_ControlPanel-childContainer">
-                    <button type="button">Element 1</button>
-                </div>
-                <div className="Component_ControlPanel-childContainer">
-                    <button type="button" onClick={this.startGame}>
-                        Play
-                    </button>
-                </div>
-                <div className="Component_ControlPanel-childContainer">
-                    <button type="button">Element 3</button>
-                </div>
+            <div>
+                <Header title={title} />
+                <BottomNavigation
+                    value={navValue}
+                    onChange={this.handleChange}
+                    showLabels
+                    className={classes.root}
+                >
+                    <BottomNavigationAction label="Hiscores" icon={<BarChart />} />
+                    <BottomNavigationAction label="Play" icon={<VideogameAsset />} />
+                    <BottomNavigationAction label="Levels" icon={<Layers />} />
+                </BottomNavigation>
             </div>
         );
     }
 }
 
-export default ControlPanel;
+ControlPanel.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(ControlPanel);

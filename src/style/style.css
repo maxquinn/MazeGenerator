@@ -15,12 +15,6 @@ body {
     text-shadow: 3px 3px 0 #0199d9 , 4px 4px 0 #0199d9 , 5px 5px 0 #0199d9 , 6px 6px 0 #0199d9 , 7px 7px 0 #0199d9 , 8px 8px 0 #0199d9 , 9px 9px 0 #0199d9 , 10px 10px 0 #0199d9 , 11px 11px 0 #0199d9 , 12px 12px 0 #0199d9 , 13px 13px 0 #0199d9 , 14px 14px 0 #0199d9 , 15px 15px 0 #0199d9 , 16px 16px 0 #0199d9 , 17px 17px 0 #0199d9 , 18px 18px 0 #0199d9 , 19px 19px 0 #0199d9 , 20px 20px 0 #0199d9 ;
 }
 
-/* Layout Styles */
-.Component_Layout-container {
-    padding: 10px 0;
-    justify-content: center;
-}
-
 .Component_Layout-mazeContainer {
     width: 100%;
     display: flex;
@@ -30,28 +24,4 @@ body {
 .Component_GameBoard-canvas {
     margin: auto; /* for centering */
     display: flex;
-}
-
-/* ControlPanel Styles */
-.Component_ControlPanel-parentContainer {
-    display: flex;
-    justify-content: space-around;
-}
-
-
-button {
-    height: 40px;
-    min-width: 200px;
-    color: #ffffff;
-    background-color: lightgray;
-    font-family: 'Raleway',sans-serif; 
-    font-size: 20px; 
-    font-weight: 800; 
-    line-height: 20px; 
-    border-style: none;
-}
-
-button:hover {
-    color: darkgray;
-    background-color: white;
 }

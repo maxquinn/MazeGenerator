@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Layout from './components/Layout';
 import Game from './components/Game';
 import ControlPanel from './components/ControlPanel';
 
@@ -24,10 +23,10 @@ class App extends React.Component {
     render() {
         const { gameInProgress } = this.state;
         return (
-            <Layout>
-                <ControlPanel handleGameStart={this.startGame} />
+            <div>
+                <ControlPanel />
                 {gameInProgress && <Game />}
-            </Layout>
+            </div>
         );
     }
 }
