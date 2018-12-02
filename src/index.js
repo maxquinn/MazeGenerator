@@ -1,31 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Game from './components/Game';
 import ControlPanel from './components/ControlPanel';
-
+import Header from './components/Header';
+import Game from './components/Game';
 import './style/style.css';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.startGame = this.startGame.bind(this);
+        this.handleNavigationChange = this.handleNavigationChange.bind(this);
         this.state = {
-            gameInProgress: false
+            navigationValue: 1
         };
     }
 
-    startGame() {
+    handleNavigationChange(event, value) {
         this.setState({
-            gameInProgress: true
+            navigationValue: value
         });
     }
 
     render() {
-        const { gameInProgress } = this.state;
+        const { navigationValue } = this.state;
         return (
             <div>
-                <ControlPanel />
-                {gameInProgress && <Game />}
+                <Header title="Maze" />
+                {(() => {
+                    switch (navigationValue) {
+                        case 0:
+                            return <div className="hiscores" />;
+                            break;
+                        case 1:
+                            return <Game />;
+                            break;
+                        case 2:
+                            return <div className="levels" />;
+                            break;
+                        default:
+                            return null;
+                    }
+                })()}
+                <ControlPanel
+                    navigationValue={navigationValue}
+                    onNavigationChange={this.handleNavigationChange}
+                />
             </div>
         );
     }
