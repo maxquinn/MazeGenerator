@@ -1,6 +1,16 @@
 import React from 'react';
+import CountdownNow from 'react-countdown-now';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';
+import Countdown from './Countdown';
+
+const renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+        return <GameBoard />;
+    } else {
+        return <Countdown s={seconds} />;
+    }
+};
 
 class Game extends React.Component {
     constructor(props) {
@@ -30,7 +40,15 @@ class Game extends React.Component {
 
     render() {
         const { gameInProgress } = this.state;
-        return <div>{gameInProgress ? <GameBoard /> : <Instructions />}</div>;
+        return (
+            <div>
+                {gameInProgress ? (
+                    <CountdownNow date={Date.now() + 3000} zeroPadLength={1} renderer={renderer} />
+                ) : (
+                    <Instructions />
+                )}
+            </div>
+        );
     }
 }
 
