@@ -1,5 +1,6 @@
 body {
     background-color: darkgray;
+    margin: 0;
 }
 
 /* Header Styles */
@@ -14,10 +15,16 @@ body {
     text-shadow: 3px 3px 0 #0199d9 , 4px 4px 0 #0199d9 , 5px 5px 0 #0199d9 , 6px 6px 0 #0199d9 , 7px 7px 0 #0199d9 , 8px 8px 0 #0199d9 , 9px 9px 0 #0199d9 , 10px 10px 0 #0199d9 , 11px 11px 0 #0199d9 , 12px 12px 0 #0199d9 , 13px 13px 0 #0199d9 , 14px 14px 0 #0199d9 , 15px 15px 0 #0199d9 , 16px 16px 0 #0199d9 , 17px 17px 0 #0199d9 , 18px 18px 0 #0199d9 , 19px 19px 0 #0199d9 , 20px 20px 0 #0199d9 ;
 }
 
-/* Layout Styles */
-.Component_Layout-container {
-    padding: 10px 0;
-    justify-content: center;
+.Component_Header-subtitle {
+    font-size: 30px;
+    font-weight: bold;
+    box-sizing: content-box;
+    border: none;
+    font-family: 'open sans',arial,sans-serif;
+    color: rgba(255,255,255,1);
+    text-align: center;
+    text-overflow: clip;
+    text-shadow: 3px 3px 0 #0199d9 , 4px 4px 0 #0199d9 , 5px 5px 0 #0199d9 , 6px 6px 0 #0199d9 , 7px 7px 0 #0199d9 , 8px 8px 0 #0199d9 , 9px 9px 0 #0199d9 , 10px 10px 0 #0199d9 , 11px 11px 0 #0199d9 , 12px 12px 0 #0199d9 , 13px 13px 0 #0199d9 , 14px 14px 0 #0199d9 , 15px 15px 0 #0199d9 , 16px 16px 0 #0199d9 , 17px 17px 0 #0199d9 , 18px 18px 0 #0199d9 , 19px 19px 0 #0199d9 , 20px 20px 0 #0199d9 ;
 }
 
 .Component_Layout-mazeContainer {
@@ -31,26 +38,24 @@ body {
     display: flex;
 }
 
-/* ControlPanel Styles */
-.Component_ControlPanel-parentContainer {
+/* Instructions Styles */
+.Component_Instructions-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    padding: 15vh;
 }
 
-
-button {
-    height: 40px;
-    min-width: 200px;
-    color: #ffffff;
-    background-color: lightgray;
-    font-family: 'Raleway',sans-serif; 
-    font-size: 20px; 
-    font-weight: 800; 
-    line-height: 20px; 
-    border-style: none;
-}
-
-button:hover {
-    color: darkgray;
-    background-color: white;
+/* Countdown Styles */
+.Component_Countdown-container {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

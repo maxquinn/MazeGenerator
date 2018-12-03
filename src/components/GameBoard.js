@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from '../classes/Grid';
 import forgeTheLabyrinth from '../helpers/forgeTheLabyrinth';
 import InputManager from '../classes/InputManager';
@@ -12,7 +13,7 @@ class GameBoard extends React.Component {
         this.state = {
             boardSize: 0,
             ctx: undefined,
-            difficulty: 43,
+            difficulty: 11,
             grid: undefined,
             input: new InputManager()
         };
@@ -46,6 +47,7 @@ class GameBoard extends React.Component {
 
     componentWillUnmount() {
         const { input } = this.state;
+        clearInterval(this.interval);
         window.removeEventListener('resize', this.handleResize);
         input.unbindKeys();
     }
@@ -121,6 +123,21 @@ class GameBoard extends React.Component {
                 });
             }
         }
+
+        this.checkWin();
+    }
+
+    checkWin() {
+        const {
+            grid: {
+                finishCell: { x: finishX, y: finishY },
+                player: { x: playerX, y: playerY }
+            }
+        } = this.state;
+        if (finishX === playerX && finishY === playerY) {
+            const { onGameWin } = this.props;
+            onGameWin();
+        }
     }
 
     loop() {
@@ -141,5 +158,9 @@ class GameBoard extends React.Component {
         );
     }
 }
+
+GameBoard.propTypes = {
+    onGameWin: PropTypes.func.isRequired
+};
 
 export default GameBoard;
