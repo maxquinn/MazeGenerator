@@ -25,3 +25,9 @@ body {
     margin: auto; /* for centering */
     display: flex;
 }
+
+.Component_Instructions-container {
+    display: flex;
+    justify-content: center;
+    padding: 20vh;
+}
