@@ -22,24 +22,24 @@ class App extends React.Component {
 
     render() {
         const { navigationValue } = this.state;
+        let componentToRender = null;
+        switch (navigationValue) {
+            case 0:
+                componentToRender = <div className="hiscores" />;
+                break;
+            case 1:
+                componentToRender = <Game />;
+                break;
+            case 2:
+                componentToRender = <div className="levels" />;
+                break;
+            default:
+                componentToRender = null;
+        }
         return (
             <div>
                 <Header title="Maze" />
-                {(() => {
-                    switch (navigationValue) {
-                        case 0:
-                            return <div className="hiscores" />;
-                            break;
-                        case 1:
-                            return <Game />;
-                            break;
-                        case 2:
-                            return <div className="levels" />;
-                            break;
-                        default:
-                            return null;
-                    }
-                })()}
+                {componentToRender}
                 <ControlPanel
                     navigationValue={navigationValue}
                     onNavigationChange={this.handleNavigationChange}

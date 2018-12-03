@@ -34,7 +34,7 @@ class Instructions extends React.PureComponent {
                             In Game
                         </Typography>
                         <Typography component="p">
-                            Use the arrow keys or w, a, s, d to control the player.
+                            Use the arrow keys or W, A, S, D to control the player.
                         </Typography>
                     </CardContent>
                 </Card>

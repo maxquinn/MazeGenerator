@@ -21,10 +21,10 @@ class ControlPanel extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange = (event, value) => {
+    handleChange(event, value) {
         const { onNavigationChange } = this.props;
         onNavigationChange(event, value);
-    };
+    }
 
     render() {
         const { classes, navigationValue } = this.props;

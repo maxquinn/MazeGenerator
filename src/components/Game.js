@@ -4,20 +4,15 @@ import GameBoard from './GameBoard';
 import Instructions from './Instructions';
 import Countdown from './Countdown';
 
-const renderer = ({ hours, minutes, seconds, completed }) => {
-    if (completed) {
-        return <GameBoard />;
-    } else {
-        return <Countdown s={seconds} />;
-    }
-};
-
 class Game extends React.Component {
     constructor(props) {
         super(props);
         this.startGame = this.startGame.bind(this);
+        this.renderer = this.renderer.bind(this);
+        this.handleGameWin = this.handleGameWin.bind(this);
         this.state = {
-            gameInProgress: false
+            gameInProgress: false,
+            gameWon: false
         };
     }
 
@@ -31,24 +26,41 @@ class Game extends React.Component {
 
     startGame(value) {
         if (value.key === ' ') {
-            const { gameInProgress } = this.state;
-            this.setState({
-                gameInProgress: !gameInProgress
-            });
+            const { gameInProgress, gameWon } = this.state;
+            if (!gameWon) {
+                this.setState({
+                    gameInProgress: !gameInProgress
+                });
+            }
+        }
+    }
+
+    handleGameWin() {
+        this.setState({ gameWon: true });
+    }
+
+    renderer({ hours, minutes, seconds, completed }) {
+        if (completed) {
+            return <GameBoard onGameWin={this.handleGameWin} />;
+        } else {
+            return <Countdown s={seconds} />;
         }
     }
 
     render() {
-        const { gameInProgress } = this.state;
-        return (
-            <div>
-                {gameInProgress ? (
-                    <CountdownNow date={Date.now() + 3000} zeroPadLength={1} renderer={renderer} />
-                ) : (
-                    <Instructions />
-                )}
-            </div>
-        );
+        const { gameInProgress, gameWon } = this.state;
+        let componentToRender = null;
+        if (gameInProgress) {
+            componentToRender = (
+                <CountdownNow date={Date.now() + 3000} zeroPadLength={1} renderer={this.renderer} />
+            );
+            if (gameWon) {
+                componentToRender = null;
+            }
+        } else {
+            componentToRender = <Instructions />;
+        }
+        return <div>{componentToRender}</div>;
     }
 }
 
