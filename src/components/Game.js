@@ -11,19 +11,18 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('keyup', this.startGame.bind(this, false));
-        window.addEventListener('keydown', this.startGame.bind(this, true));
+        window.addEventListener('keypress', this.startGame);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('keyup', this.startGame);
-        window.removeEventListener('keydown', this.startGame);
+        window.removeEventListener('keypress', this.startGame);
     }
 
-    startGame(value, e) {
-        if (e.key === ' ') {
+    startGame(value) {
+        if (value.key === ' ') {
+            const { gameInProgress } = this.state;
             this.setState({
-                gameInProgress: true
+                gameInProgress: !gameInProgress
             });
         }
     }
