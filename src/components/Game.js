@@ -41,7 +41,7 @@ class Game extends React.Component {
 
     renderer({ hours, minutes, seconds, completed }) {
         if (completed) {
-            return <GameBoard onGameWin={this.handleGameWin} />;
+            return <GameBoard onGameWin={this.handleGameWin} startTime={Date.now()} />;
         } else {
             return <Countdown s={seconds} />;
         }

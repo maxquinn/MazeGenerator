@@ -13,9 +13,10 @@ class GameBoard extends React.Component {
         this.state = {
             boardSize: 0,
             ctx: undefined,
-            difficulty: 11,
+            difficulty: 69,
             grid: undefined,
-            input: new InputManager()
+            input: new InputManager(),
+            elapsed: 0
         };
     }
 
@@ -144,6 +145,16 @@ class GameBoard extends React.Component {
         this.interval = setInterval(() => {
             this.update();
         }, 50);
+        this.gameTimer = setInterval(() => {
+            this.updateGameTimer();
+        }, 50);
+    }
+
+    updateGameTimer() {
+        const { startTime } = this.props;
+        this.setState({
+            elapsed: new Date() - startTime
+        });
     }
 
     render() {
@@ -160,7 +171,8 @@ class GameBoard extends React.Component {
 }
 
 GameBoard.propTypes = {
-    onGameWin: PropTypes.func.isRequired
+    onGameWin: PropTypes.func.isRequired,
+    startTime: PropTypes.number.isRequired
 };
 
 export default GameBoard;

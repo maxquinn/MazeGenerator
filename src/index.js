@@ -38,7 +38,7 @@ class App extends React.Component {
         }
         return (
             <div>
-                <Header title="Maze" />
+                <Header title="The Labyrinth" />
                 {componentToRender}
                 <ControlPanel
                     navigationValue={navigationValue}
