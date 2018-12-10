@@ -1,5 +1,6 @@
 import React from 'react';
 import CountdownNow from 'react-countdown-now';
+import { Typography } from '@material-ui/core';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';
 import Countdown from './Countdown';
@@ -10,9 +11,12 @@ class Game extends React.Component {
         this.startGame = this.startGame.bind(this);
         this.renderer = this.renderer.bind(this);
         this.handleGameWin = this.handleGameWin.bind(this);
+        this.handleGameTimerUpdate = this.handleGameTimerUpdate.bind(this);
         this.state = {
             gameInProgress: false,
-            gameWon: false
+            gameWon: false,
+            startTime: null,
+            gameTime: '0.0'
         };
     }
 
@@ -27,8 +31,14 @@ class Game extends React.Component {
     startGame(value) {
         if (value.key === ' ') {
             const { gameInProgress, gameWon } = this.state;
+            if (!gameWon && !gameInProgress) {
+                this.setState({
+                    startTime: Date.now()
+                });
+            }
             if (!gameWon) {
                 this.setState({
+                    gameTime: '0.0',
                     gameInProgress: !gameInProgress
                 });
             }
@@ -39,20 +49,36 @@ class Game extends React.Component {
         this.setState({ gameWon: true });
     }
 
+    handleGameTimerUpdate(time) {
+        let elapsed = Math.round(time / 100);
+        let seconds = (elapsed / 10).toFixed(1);
+        this.setState({ gameTime: seconds });
+    }
+
     renderer({ hours, minutes, seconds, completed }) {
+        const { gameTime } = this.state;
         if (completed) {
-            return <GameBoard onGameWin={this.handleGameWin} startTime={Date.now()} />;
+            return (
+                <>
+                    <Typography>{gameTime}</Typography>
+                    <GameBoard
+                        onGameWin={this.handleGameWin}
+                        onGameTimerUpdate={this.handleGameTimerUpdate}
+                        startTime={Date.now()}
+                    />
+                </>
+            );
         } else {
             return <Countdown s={seconds} />;
         }
     }
 
     render() {
-        const { gameInProgress, gameWon } = this.state;
+        const { gameInProgress, gameWon, startTime } = this.state;
         let componentToRender = null;
         if (gameInProgress) {
             componentToRender = (
-                <CountdownNow date={Date.now() + 3000} zeroPadLength={1} renderer={this.renderer} />
+                <CountdownNow date={startTime + 3000} zeroPadLength={1} renderer={this.renderer} />
             );
             if (gameWon) {
                 componentToRender = null;

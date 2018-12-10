@@ -9,14 +9,14 @@ class GameBoard extends React.Component {
         super(props);
         this.WINDOW_SIZE_MULTIPLIER = 0.7;
         this.canvas = React.createRef();
+        this.startTime = null;
         this.handleResize = this.handleResize.bind(this);
         this.state = {
             boardSize: 0,
             ctx: undefined,
             difficulty: 69,
             grid: undefined,
-            input: new InputManager(),
-            elapsed: 0
+            input: new InputManager()
         };
     }
 
@@ -48,7 +48,8 @@ class GameBoard extends React.Component {
 
     componentWillUnmount() {
         const { input } = this.state;
-        clearInterval(this.interval);
+        clearInterval(this.tick);
+        clearInterval(this.gameTimer);
         window.removeEventListener('resize', this.handleResize);
         input.unbindKeys();
     }
@@ -75,6 +76,7 @@ class GameBoard extends React.Component {
                 grid: mazeGrid
             };
         });
+        this.startTime = Date.now();
         this.loop();
     }
 
@@ -142,7 +144,7 @@ class GameBoard extends React.Component {
     }
 
     loop() {
-        this.interval = setInterval(() => {
+        this.tick = setInterval(() => {
             this.update();
         }, 50);
         this.gameTimer = setInterval(() => {
@@ -151,10 +153,8 @@ class GameBoard extends React.Component {
     }
 
     updateGameTimer() {
-        const { startTime } = this.props;
-        this.setState({
-            elapsed: new Date() - startTime
-        });
+        const { onGameTimerUpdate } = this.props;
+        onGameTimerUpdate(new Date() - this.startTime);
     }
 
     render() {
@@ -172,7 +172,7 @@ class GameBoard extends React.Component {
 
 GameBoard.propTypes = {
     onGameWin: PropTypes.func.isRequired,
-    startTime: PropTypes.number.isRequired
+    onGameTimerUpdate: PropTypes.func.isRequired
 };
 
 export default GameBoard;
