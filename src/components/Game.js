@@ -1,9 +1,10 @@
 import React from 'react';
 import CountdownNow from 'react-countdown-now';
-import { Typography } from '@material-ui/core';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';
 import Countdown from './Countdown';
+import GameTimer from './GameTimer';
+import Header from './Header';
 
 class Game extends React.Component {
     constructor(props) {
@@ -60,7 +61,7 @@ class Game extends React.Component {
         if (completed) {
             return (
                 <>
-                    <Typography>{gameTime}</Typography>
+                    <GameTimer time={gameTime} />
                     <GameBoard
                         onGameWin={this.handleGameWin}
                         onGameTimerUpdate={this.handleGameTimerUpdate}
@@ -84,7 +85,12 @@ class Game extends React.Component {
                 componentToRender = null;
             }
         } else {
-            componentToRender = <Instructions />;
+            componentToRender = (
+                <>
+                    <Header title="The Labyrinth" />
+                    <Instructions />
+                </>
+            );
         }
         return <div>{componentToRender}</div>;
     }

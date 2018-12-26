@@ -5,7 +5,7 @@ body {
 
 /* Header Styles */
 .Component_Header-title {
-    font-size: 45px;
+    font-size: 40px;
     box-sizing: content-box;
     border: none;
     font-family: 'open sans',arial,sans-serif;
@@ -16,7 +16,7 @@ body {
 }
 
 .Component_Header-subtitle {
-    font-size: 30px;
+    font-size: 27px;
     font-weight: bold;
     box-sizing: content-box;
     border: none;
@@ -58,4 +58,11 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+/* GameTimer Styles */
+.Component_GameTimer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

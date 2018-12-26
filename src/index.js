@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ControlPanel from './components/ControlPanel';
-import Header from './components/Header';
 import Game from './components/Game';
 import './style/style.css';
 
@@ -31,14 +30,13 @@ class App extends React.Component {
                 componentToRender = <Game />;
                 break;
             case 2:
-                componentToRender = <div className="levels" />;
+                componentToRender = <div className="modes" />;
                 break;
             default:
                 componentToRender = null;
         }
         return (
             <div>
-                <Header title="The Labyrinth" />
                 {componentToRender}
                 <ControlPanel
                     navigationValue={navigationValue}

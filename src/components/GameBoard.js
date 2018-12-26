@@ -7,14 +7,14 @@ import InputManager from '../classes/InputManager';
 class GameBoard extends React.Component {
     constructor(props) {
         super(props);
-        this.WINDOW_SIZE_MULTIPLIER = 0.7;
+        this.WINDOW_SIZE_MULTIPLIER = 0.8;
         this.canvas = React.createRef();
         this.startTime = null;
         this.handleResize = this.handleResize.bind(this);
         this.state = {
             boardSize: 0,
             ctx: undefined,
-            difficulty: 69,
+            difficulty: 15,
             grid: undefined,
             input: new InputManager()
         };

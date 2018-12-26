@@ -38,7 +38,7 @@ class ControlPanel extends React.Component {
             >
                 <BottomNavigationAction label="Hiscores" icon={<BarChart />} />
                 <BottomNavigationAction label="Play" icon={<VideogameAsset />} />
-                <BottomNavigationAction label="Levels" icon={<Layers />} />
+                <BottomNavigationAction label="Modes" icon={<Layers />} />
             </BottomNavigation>
         );
     }
