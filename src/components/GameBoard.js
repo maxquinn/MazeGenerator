@@ -14,7 +14,6 @@ class GameBoard extends React.Component {
         this.state = {
             boardSize: 0,
             ctx: undefined,
-            difficulty: 15,
             grid: undefined,
             input: new InputManager()
         };
@@ -22,6 +21,7 @@ class GameBoard extends React.Component {
 
     componentDidMount() {
         const { input } = this.state;
+        const { difficulty } = this.props;
         window.addEventListener('resize', this.handleResize);
         input.bindKeys();
         let boardSize =
@@ -30,7 +30,7 @@ class GameBoard extends React.Component {
             prevState => ({
                 ctx: this.canvas.current.getContext('2d'),
                 boardSize: boardSize,
-                grid: new Grid(prevState.difficulty, boardSize)
+                grid: new Grid(difficulty, boardSize)
             }),
             () => {
                 this.handleResize();
@@ -55,11 +55,12 @@ class GameBoard extends React.Component {
     }
 
     handleResize() {
-        let nextBoardSize =
+        const { difficulty } = this.props;
+        const nextBoardSize =
             Math.min(window.innerHeight, window.innerWidth) * this.WINDOW_SIZE_MULTIPLIER;
         this.setState(prevState => {
-            let newGrid = prevState.grid;
-            newGrid.resize(nextBoardSize / prevState.difficulty);
+            const newGrid = prevState.grid;
+            newGrid.resize(nextBoardSize / difficulty);
             return {
                 boardSize: nextBoardSize,
                 grid: newGrid
@@ -70,7 +71,7 @@ class GameBoard extends React.Component {
     startGame() {
         const { grid } = this.state;
         this.setState(prevState => {
-            let mazeGrid = prevState.grid;
+            const mazeGrid = prevState.grid;
             mazeGrid.setBoard(forgeTheLabyrinth(1, 1, grid.board));
             return {
                 grid: mazeGrid
@@ -85,7 +86,7 @@ class GameBoard extends React.Component {
         if (input.pressedKeys.left) {
             if (grid.isLegalMove(grid.player.x - 1, grid.player.y)) {
                 this.setState(prevState => {
-                    let newGrid = prevState.grid;
+                    const newGrid = prevState.grid;
                     newGrid.movePlayerLeft();
                     return {
                         grid: newGrid
@@ -96,7 +97,7 @@ class GameBoard extends React.Component {
         if (input.pressedKeys.right) {
             if (grid.isLegalMove(grid.player.x + 1, grid.player.y)) {
                 this.setState(prevState => {
-                    let newGrid = prevState.grid;
+                    const newGrid = prevState.grid;
                     newGrid.movePlayerRight();
                     return {
                         grid: newGrid
@@ -107,7 +108,7 @@ class GameBoard extends React.Component {
         if (input.pressedKeys.up) {
             if (grid.isLegalMove(grid.player.x, grid.player.y - 1)) {
                 this.setState(prevState => {
-                    let newGrid = prevState.grid;
+                    const newGrid = prevState.grid;
                     newGrid.movePlayerUp();
                     return {
                         grid: newGrid
@@ -118,7 +119,7 @@ class GameBoard extends React.Component {
         if (input.pressedKeys.down) {
             if (grid.isLegalMove(grid.player.x, grid.player.y + 1)) {
                 this.setState(prevState => {
-                    let newGrid = prevState.grid;
+                    const newGrid = prevState.grid;
                     newGrid.movePlayerDown();
                     return {
                         grid: newGrid
@@ -172,7 +173,8 @@ class GameBoard extends React.Component {
 
 GameBoard.propTypes = {
     onGameWin: PropTypes.func.isRequired,
-    onGameTimerUpdate: PropTypes.func.isRequired
+    onGameTimerUpdate: PropTypes.func.isRequired,
+    difficulty: PropTypes.number.isRequired
 };
 
 export default GameBoard;
