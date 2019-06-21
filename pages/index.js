@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ControlPanel from './components/ControlPanel';
-import Game from './components/Game';
-import './style/style.css';
+import ControlPanel from '../src/components/ControlPanel';
+import Game from '../src/components/Game';
+import '../src/style/style.css';
 
-class App extends React.Component {
+class Index extends React.Component {
     constructor(props) {
         super(props);
         this.handleNavigationChange = this.handleNavigationChange.bind(this);
@@ -24,7 +23,7 @@ class App extends React.Component {
         let componentToRender = null;
         switch (navigationValue) {
             case 0:
-                componentToRender = <div className="hiscores" />;
+                componentToRender = <div className="highscores" />;
                 break;
             case 1:
                 componentToRender = <Game />;
@@ -47,4 +46,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+export default Index;

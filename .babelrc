@@ -1,14 +1,4 @@
 {
-    "presets": [
-        ["@babel/preset-env", {
-            "targets": {
-                "node": "8"
-            }
-        }],
-        "@babel/preset-react"
-    ],
-    "plugins": [
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-proposal-optional-chaining"
-    ]
-  }
+    "presets": ["next/babel"],
+    "plugins": ["@babel/proposal-optional-chaining"]
+}

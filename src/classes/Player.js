@@ -1,36 +1,37 @@
 import Cell from './Cell';
 
 export default class Player extends Cell {
-    constructor(x, y, size) {
-        super(x, y, size);
-        this.fillStyle = '#0199d9';
-    }
+  constructor(x, y, size) {
+    super(x, y, size);
+    this.fillStyle = '#0199d9';
+  }
 
-    draw(context) {
-        context.fillStyle = this.getFillStyle();
-        context.fillRect(this.x * this.size, this.y * this.size, this.size, this.size);
-    }
+  draw(context) {
+    const ctx = context;
+    ctx.fillStyle = this.getFillStyle();
+    ctx.fillRect(this.x * this.size, this.y * this.size, this.size, this.size);
+  }
 
-    getPosition() {
-        return {
-            x: this.x,
-            y: this.y
-        };
-    }
+  getPosition() {
+    return {
+      x: this.x,
+      y: this.y,
+    };
+  }
 
-    moveLeft() {
-        this.x--;
-    }
+  moveLeft() {
+    this.x -= 1;
+  }
 
-    moveRight() {
-        this.x++;
-    }
+  moveRight() {
+    this.x += 1;
+  }
 
-    moveUp() {
-        this.y--;
-    }
+  moveUp() {
+    this.y -= 1;
+  }
 
-    moveDown() {
-        this.y++;
-    }
+  moveDown() {
+    this.y += 1;
+  }
 }
