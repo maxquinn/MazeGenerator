@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/maxquinn/MazeGenerator#readme",
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "babel-eslint": "^10.0.2",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
