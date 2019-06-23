@@ -22,6 +22,7 @@ export default class Grid {
       }
     }
     this.player = new Player(0, 1, this.cellSize);
+    this.ctx = null;
   }
 
   setBoard(newBoard) {
@@ -51,9 +52,11 @@ export default class Grid {
       });
     });
     this.player.setSize(size);
+    this.draw(this.ctx);
   }
 
   draw(context) {
+    this.ctx = context;
     this.board.forEach((item) => {
       item.forEach((cell) => {
         cell.draw(context);
@@ -79,18 +82,30 @@ export default class Grid {
   }
 
   movePlayerLeft() {
+    const oldCell = this.player.getPosition();
     this.player.moveLeft();
+    this.board[oldCell.x][oldCell.y].draw(this.ctx);
+    this.player.draw(this.ctx);
   }
 
   movePlayerRight() {
+    const oldCell = this.player.getPosition();
     this.player.moveRight();
+    this.board[oldCell.x][oldCell.y].draw(this.ctx);
+    this.player.draw(this.ctx);
   }
 
   movePlayerUp() {
+    const oldCell = this.player.getPosition();
     this.player.moveUp();
+    this.board[oldCell.x][oldCell.y].draw(this.ctx);
+    this.player.draw(this.ctx);
   }
 
   movePlayerDown() {
+    const oldCell = this.player.getPosition();
     this.player.moveDown();
+    this.board[oldCell.x][oldCell.y].draw(this.ctx);
+    this.player.draw(this.ctx);
   }
 }
