@@ -1,21 +1,35 @@
 import { useState, useEffect } from 'react';
 import CountdownNow from 'react-countdown-now';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';
 import Countdown from './Countdown';
 import GameTimer from './GameTimer';
 import Header from './Header';
 import InputDialog from './InputDialog';
+import DifficultySelect from './DifficultySelect';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    padding: '30px',
+    '& div': {
+      margin: '10px',
+    },
+  },
+});
 
 function Game() {
-  const DIFFICULTY = 11;
   const WINDOW_SIZE_MULTIPLIER = 0.8;
   const [gameInProgress, setGameInProgress] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [startTime, setStartTime] = useState(Date.now());
   const [gameTime, setGameTime] = useState('0.0');
   const [boardSize, setBoardSize] = useState(0);
+  const [difficulty, setDifficulty] = useState(41);
 
   function handleResize() {
     const nextBoardSize = Math.min(window.innerHeight, window.innerWidth) * WINDOW_SIZE_MULTIPLIER;
@@ -53,7 +67,7 @@ function Game() {
 
   function handleHighscoreSubmit(name) {
     axios.post('/highscores', {
-      difficulty: DIFFICULTY,
+      difficulty,
       time: gameTime,
       name,
     });
@@ -70,7 +84,7 @@ function Game() {
             onGameTimerUpdate={handleGameTimerUpdate}
             boardSize={boardSize}
             startTime={startTime}
-            difficulty={DIFFICULTY}
+            difficulty={difficulty}
           />
         </>
       );
@@ -78,7 +92,12 @@ function Game() {
     return <Countdown s={seconds} />;
   }
 
+  function handleDifficultyChange(newDifficulty) {
+    setDifficulty(newDifficulty);
+  }
+
   let componentToRender = null;
+  const classes = useStyles();
   if (gameInProgress) {
     componentToRender = (
       <CountdownNow date={startTime + 3000} zeroPadLength={1} renderer={renderer} />
@@ -96,7 +115,10 @@ function Game() {
     componentToRender = (
       <>
         <Header title="The Labyrinth" />
-        <Instructions />
+        <div className={classes.root}>
+          <Instructions />
+          <DifficultySelect onDifficultyChange={handleDifficultyChange} value={difficulty} />
+        </div>
       </>
     );
   }

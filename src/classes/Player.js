@@ -9,7 +9,7 @@ export default class Player extends Cell {
   draw(context) {
     const ctx = context;
     ctx.fillStyle = this.getFillStyle();
-    ctx.fillRect(this.x * this.size, this.y * this.size, this.size, this.size);
+    ctx.fillRect(this.x * this.size + 1, this.y * this.size + 1, this.size - 2, this.size - 2);
   }
 
   getPosition() {

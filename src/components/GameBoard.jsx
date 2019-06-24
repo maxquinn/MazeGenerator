@@ -17,10 +17,9 @@ function GameBoard(props) {
     difficulty, boardSize, onGameTimerUpdate, startTime,
   } = props;
   const canvas = useRef(null);
-  const [tick, setTick] = useState(null);
-  const [gameTimer, setGameTimer] = useState(null);
   const [grid, setGrid] = useState(new Grid(difficulty, boardSize));
   const [input] = useState(new InputManager());
+  const [playing, setPlaying] = useState(false);
 
   function checkWin() {
     const {
@@ -29,6 +28,7 @@ function GameBoard(props) {
     } = grid;
     if (finishX === playerX && finishY === playerY) {
       const { onGameWin } = props;
+      setPlaying(false);
       onGameWin(true);
     }
   }
@@ -66,22 +66,9 @@ function GameBoard(props) {
     onGameTimerUpdate(new Date() - startTime);
   }
 
-  function loop() {
-    setTick(
-      setInterval(() => {
-        update();
-      }, 50),
-    );
-    setGameTimer(
-      setInterval(() => {
-        updateGameTimer();
-      }, 50),
-    );
-  }
-
   function startGame() {
     setGrid(grid.setBoard(forgeTheLabyrinth(1, 1, grid.board)));
-    loop();
+    setPlaying(true);
   }
 
   useEffect(() => {
@@ -90,8 +77,6 @@ function GameBoard(props) {
     grid.draw(canvas.current.getContext('2d'));
 
     return () => {
-      clearInterval(tick);
-      clearInterval(gameTimer);
       input.unbindKeys();
     };
   }, []);
@@ -101,16 +86,24 @@ function GameBoard(props) {
     setGrid(grid);
   }, [boardSize]);
 
+  useEffect(() => {
+    const gameTick = setInterval(() => {
+      update();
+    }, 50);
+
+    const gameTimer = setInterval(() => {
+      updateGameTimer();
+    }, 50);
+
+    return () => {
+      clearInterval(gameTick);
+      clearInterval(gameTimer);
+    };
+  }, [playing]);
+
   const classes = useStyles();
 
-  return (
-    <canvas
-      className={classes.root}
-      ref={canvas}
-      width={boardSize}
-      height={boardSize}
-    />
-  );
+  return <canvas className={classes.root} ref={canvas} width={boardSize} height={boardSize} />;
 }
 
 GameBoard.propTypes = {

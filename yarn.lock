@@ -752,6 +752,18 @@
   dependencies:
     "@babel/runtime" "^7.2.0"
 
+"@material-ui/lab@^4.0.0-alpha.17":
+  version "4.0.0-alpha.17"
+  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.17.tgz#06fd70066f70a1e8f0d084a59cdd62ee8559d2df"
+  integrity sha512-DMbOI62uf2XEn1SgA8XevggK/s64XOLxZUo9YYPqzH9orh5i647ND61cehKWeDtCHD85Q9tSJZ0YGI7givKvVA==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    "@material-ui/utils" "^4.1.0"
+    clsx "^1.0.2"
+    keycode "^2.1.9"
+    prop-types "^15.7.2"
+    warning "^4.0.1"
+
 "@material-ui/react-transition-group@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@material-ui/react-transition-group/-/react-transition-group-4.2.0.tgz#afec833bbcc79f05a9b4d4828b3e07965cc7e321"
@@ -3258,6 +3270,11 @@ junk@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/junk/-/junk-1.0.3.tgz#87be63488649cbdca6f53ab39bec9ccd2347f592"
   integrity sha1-h75jSIZJy9ym9Tqzm+yczSNH9ZI=
+
+keycode@^2.1.9:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
+  integrity sha1-PQr1bce4uOXLqNCpfxByBO7CKwQ=
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
