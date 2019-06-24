@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
-const styles = {
-  countdown: {
-    fontSize: 30,
-    color: '#ff0000e0',
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-};
+});
 
-function GameTimer({ time, classes }) {
+function GameTimer({ time }) {
+  const classes = useStyles();
+
   return (
-    <div className="Component_GameTimer-container">
-      <Typography className={classes.countdown}>{time}</Typography>
+    <div className={classes.root}>
+      <Typography variant="h4" color="error" gutterBottom>{time}</Typography>
     </div>
   );
 }
 
 GameTimer.propTypes = {
   time: PropTypes.string.isRequired,
-  classes: PropTypes.shape({
-    countdown: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
-export default withStyles(styles)(GameTimer);
+export default GameTimer;

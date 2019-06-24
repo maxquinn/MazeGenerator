@@ -1,22 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
-const styles = {
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '15vh',
+  },
   card: {
     minWidth: 275,
   },
   pos: {
     margin: '18px 0 5px',
   },
-};
+});
 
-function Instructions({ classes }) {
+function Instructions() {
+  const classes = useStyles();
   return (
-    <div className="Component_Instructions-container">
+    <div className={classes.root}>
       <Card className={classes.card}>
         <CardContent>
           <Typography variant="h5" component="h2" color="textSecondary" gutterBottom>
@@ -38,11 +43,4 @@ function Instructions({ classes }) {
   );
 }
 
-Instructions.propTypes = {
-  classes: PropTypes.shape({
-    card: PropTypes.string.isRequired,
-    pos: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-export default withStyles(styles)(Instructions);
+export default Instructions;

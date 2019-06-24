@@ -1,8 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
 import Grid from '../classes/Grid';
 import forgeTheLabyrinth from '../helpers/forgeTheLabyrinth';
 import InputManager from '../classes/InputManager';
+
+const useStyles = makeStyles({
+  root: {
+    margin: 'auto',
+    display: 'flex',
+  },
+});
 
 function GameBoard(props) {
   const {
@@ -93,9 +101,11 @@ function GameBoard(props) {
     setGrid(grid);
   }, [boardSize]);
 
+  const classes = useStyles();
+
   return (
     <canvas
-      className="Component_GameBoard-canvas"
+      className={classes.root}
       ref={canvas}
       width={boardSize}
       height={boardSize}

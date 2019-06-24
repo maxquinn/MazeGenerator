@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import ControlPanel from '../src/components/ControlPanel';
 import Game from '../src/components/Game';
-import '../src/style/style.css';
 
 function Index() {
   const [navigationValue, setNavigationValue] = useState(1);
