@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import CountdownNow from 'react-countdown-now';
-import axios from 'axios';
+import fetch from 'isomorphic-unfetch';
 import { makeStyles } from '@material-ui/core/styles';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';
@@ -66,11 +66,23 @@ function Game() {
   }
 
   function handleHighscoreSubmit(name) {
-    axios.post('/highscores', {
-      difficulty,
-      time: gameTime,
-      name,
-    });
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({
+        difficulty,
+        time: gameTime,
+        name,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    };
+    fetch('/api/highscores', options)
+      .then(res => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   }
 
   function renderer(properties) {

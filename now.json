@@ -1,4 +1,13 @@
 {
     "version": 2,
-    "builds": [{ "src": "next.config.js", "use": "@now/next" }]
+    "builds": [
+        { "src": "api/**/*.js", "use": "@now/node" },
+        { "src": "next.config.js", "use": "@now/next" }
+    ],
+    "routes": [
+      {
+        "src": "/api/highscores",
+        "dest": "api/highscores"
+      }
+    ]
 }
