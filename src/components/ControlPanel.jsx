@@ -5,6 +5,7 @@ import VideogameAsset from '@material-ui/icons/VideogameAsset';
 import Layers from '@material-ui/icons/Layers';
 import BarChart from '@material-ui/icons/BarChart';
 import { makeStyles } from '@material-ui/styles';
+import Router from 'next/router';
 
 const useStyles = makeStyles({
   root: {
@@ -16,10 +17,10 @@ const useStyles = makeStyles({
 
 function ControlPanel(props) {
   const classes = useStyles();
-  const { onNavigationChange, navigationValue } = props;
+  const { navigationValue } = props;
 
   function handleChange(event, value) {
-    onNavigationChange(event, value);
+    Router.push(value);
   }
 
   return (
@@ -29,16 +30,16 @@ function ControlPanel(props) {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction label="Hiscores" icon={<BarChart />} />
-      <BottomNavigationAction label="Play" icon={<VideogameAsset />} />
-      <BottomNavigationAction label="Modes" icon={<Layers />} />
+
+      <BottomNavigationAction label="Highscores" icon={<BarChart />} value="/highscores" />
+      <BottomNavigationAction label="Play" icon={<VideogameAsset />} value="/" />
+      <BottomNavigationAction label="Modes" icon={<Layers />} value="/placeholder" />
     </BottomNavigation>
   );
 }
 
 ControlPanel.propTypes = {
-  onNavigationChange: PropTypes.func.isRequired,
-  navigationValue: PropTypes.number.isRequired,
+  navigationValue: PropTypes.string.isRequired,
 };
 
 export default ControlPanel;

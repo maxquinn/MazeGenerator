@@ -1,7 +1,8 @@
+import { useContext } from 'react';
 import Slider from '@material-ui/lab/Slider';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import GlobalContext from './GlobalContext';
 
 const useStyles = makeStyles({
   root: {
@@ -36,9 +37,11 @@ function valueLabelFormat(value) {
   return marks[marks.findIndex(mark => mark.value === value)].emoji;
 }
 
-function DifficultySelect({ onDifficultyChange, value }) {
+function DifficultySelect() {
+  const { settings, dispatch } = useContext(GlobalContext);
+
   function handleChange(event, newValue) {
-    onDifficultyChange(newValue);
+    dispatch({ type: 'UPDATE_DIFFICULTY', difficulty: newValue });
   }
 
   const classes = useStyles();
@@ -46,7 +49,7 @@ function DifficultySelect({ onDifficultyChange, value }) {
     <div className={classes.root}>
       <Typography align="center">Difficulty</Typography>
       <Slider
-        defaultValue={value}
+        defaultValue={settings.difficulty}
         aria-labelledby="discrete-slider"
         valueLabelDisplay="auto"
         min={11}
@@ -59,10 +62,5 @@ function DifficultySelect({ onDifficultyChange, value }) {
     </div>
   );
 }
-
-DifficultySelect.propTypes = {
-  onDifficultyChange: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
-};
 
 export default DifficultySelect;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import CountdownNow from 'react-countdown-now';
 import fetch from 'isomorphic-unfetch';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,7 @@ import GameTimer from './GameTimer';
 import Header from './Header';
 import InputDialog from './InputDialog';
 import DifficultySelect from './DifficultySelect';
+import GlobalContext from './GlobalContext';
 
 const useStyles = makeStyles({
   root: {
@@ -23,16 +24,15 @@ const useStyles = makeStyles({
 });
 
 function Game() {
-  const WINDOW_SIZE_MULTIPLIER = 0.8;
+  const { settings: { difficulty, gameSize } } = useContext(GlobalContext);
   const [gameInProgress, setGameInProgress] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [startTime, setStartTime] = useState(Date.now());
   const [gameTime, setGameTime] = useState('0.0');
   const [boardSize, setBoardSize] = useState(0);
-  const [difficulty, setDifficulty] = useState(41);
 
   function handleResize() {
-    const nextBoardSize = Math.min(window.innerHeight, window.innerWidth) * WINDOW_SIZE_MULTIPLIER;
+    const nextBoardSize = Math.min(window.innerHeight, window.innerWidth) * gameSize;
     setBoardSize(nextBoardSize);
   }
 
@@ -104,10 +104,6 @@ function Game() {
     return <Countdown s={seconds} />;
   }
 
-  function handleDifficultyChange(newDifficulty) {
-    setDifficulty(newDifficulty);
-  }
-
   let componentToRender = null;
   const classes = useStyles();
   if (gameInProgress) {
@@ -129,7 +125,7 @@ function Game() {
         <Header title="The Labyrinth" />
         <div className={classes.root}>
           <Instructions />
-          <DifficultySelect onDifficultyChange={handleDifficultyChange} value={difficulty} />
+          <DifficultySelect />
         </div>
       </>
     );
