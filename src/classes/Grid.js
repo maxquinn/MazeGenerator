@@ -4,7 +4,7 @@ import Path from './Path';
 import Finish from './Finish';
 
 export default class Grid {
-  constructor(gridSize, boardSize) {
+  constructor(gridSize, boardSize, playerColor = '#000000') {
     this.board = [];
     this.cellSize = boardSize / gridSize;
     this.startCell = {
@@ -21,7 +21,7 @@ export default class Grid {
         this.board[x][y] = new Wall(x, y, this.cellSize);
       }
     }
-    this.player = new Player(0, 1, this.cellSize);
+    this.player = new Player(0, 1, this.cellSize, playerColor);
     this.ctx = null;
   }
 

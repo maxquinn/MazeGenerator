@@ -1,9 +1,9 @@
 import Cell from './Cell';
 
 export default class Player extends Cell {
-  constructor(x, y, size) {
+  constructor(x, y, size, color) {
     super(x, y, size);
-    this.fillStyle = '#0199d9';
+    this.fillStyle = color;
   }
 
   draw(context) {

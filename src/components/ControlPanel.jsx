@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import VideogameAsset from '@material-ui/icons/VideogameAsset';
-import Layers from '@material-ui/icons/Layers';
+import Settings from '@material-ui/icons/Settings';
 import BarChart from '@material-ui/icons/BarChart';
 import { makeStyles } from '@material-ui/styles';
 import Router from 'next/router';
@@ -33,7 +33,7 @@ function ControlPanel(props) {
 
       <BottomNavigationAction label="Highscores" icon={<BarChart />} value="/highscores" />
       <BottomNavigationAction label="Play" icon={<VideogameAsset />} value="/" />
-      <BottomNavigationAction label="Modes" icon={<Layers />} value="/placeholder" />
+      <BottomNavigationAction label="Settings" icon={<Settings />} value="/settings" />
     </BottomNavigation>
   );
 }

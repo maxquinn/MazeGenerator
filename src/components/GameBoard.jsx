@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import {
+  useState, useEffect, useRef, useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '../classes/Grid';
 import forgeTheLabyrinth from '../helpers/forgeTheLabyrinth';
 import InputManager from '../classes/InputManager';
+import GlobalContext from './GlobalContext';
 
 const useStyles = makeStyles({
   root: {
@@ -13,11 +16,12 @@ const useStyles = makeStyles({
 });
 
 function GameBoard(props) {
+  const { settings: { playerColor } } = useContext(GlobalContext);
   const {
     difficulty, boardSize, onGameTimerUpdate, startTime,
   } = props;
   const canvas = useRef(null);
-  const [grid, setGrid] = useState(new Grid(difficulty, boardSize));
+  const [grid, setGrid] = useState(new Grid(difficulty, boardSize, playerColor));
   const [input] = useState(new InputManager());
   const [playing, setPlaying] = useState(false);
 
