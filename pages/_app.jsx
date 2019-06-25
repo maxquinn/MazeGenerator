@@ -6,12 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import PropTypes from 'prop-types';
 import theme from '../src/theme';
 import GlobalContext from '../src/components/GlobalContext';
-
-const initialState = {
-  difficulty: 41,
-  playerColor: '#0199d9',
-  gameSize: 0.8,
-};
+import initialState from '../src/helpers/initialState';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -61,16 +56,28 @@ class MyApp extends App {
 
     return (
       <Container>
-        <Head>
-          <title>The Labyrinth</title>
-        </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <ContextWrapper>
-            <Component {...pageProps} />
-          </ContextWrapper>
-        </ThemeProvider>
+        <ContextWrapper>
+          <Head>
+            <title>The Labyrinth</title>
+          </Head>
+          <GlobalContext.Consumer>
+            {({ settings: { playerColor } }) => (
+              <ThemeProvider
+                theme={theme({
+                  palette: {
+                    primary: {
+                      main: playerColor,
+                    },
+                  },
+                })}
+              >
+                <CssBaseline />
+
+                <Component {...pageProps} />
+              </ThemeProvider>
+            )}
+          </GlobalContext.Consumer>
+        </ContextWrapper>
       </Container>
     );
   }

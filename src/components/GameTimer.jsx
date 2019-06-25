@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -16,7 +15,9 @@ function GameTimer({ time }) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h4" color="error" gutterBottom>{time}</Typography>
+      <Typography variant="h4" color="primary" gutterBottom>
+        {time}
+      </Typography>
     </div>
   );
 }
