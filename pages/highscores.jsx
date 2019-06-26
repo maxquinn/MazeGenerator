@@ -1,16 +1,13 @@
 import ControlPanel from '../src/components/ControlPanel';
+import Header from '../src/components/Header';
 
 function Highscores() {
   return (
     <div>
-      <div>Highscores</div>
+      <Header title="Highscores" />
       <ControlPanel navigationValue="/highscores" />
     </div>
   );
 }
-
-Highscores.getInitialProps = async ({ req }) => {
-  console.log(req);
-};
 
 export default Highscores;
