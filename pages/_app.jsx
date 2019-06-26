@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import theme from '../src/theme';
 import GlobalContext from '../src/components/GlobalContext';
 import initialState from '../src/helpers/initialState';
+import LoadStateWrapper from '../src/components/LoadStateWrapper';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -64,19 +65,21 @@ class MyApp extends App {
           </Head>
           <GlobalContext.Consumer>
             {({ settings: { playerColor } }) => (
-              <ThemeProvider
-                theme={theme({
-                  palette: {
-                    primary: {
-                      main: playerColor,
+              <LoadStateWrapper>
+                <ThemeProvider
+                  theme={theme({
+                    palette: {
+                      primary: {
+                        main: playerColor,
+                      },
                     },
-                  },
-                })}
-              >
-                <CssBaseline />
+                  })}
+                >
+                  <CssBaseline />
 
-                <Component {...pageProps} />
-              </ThemeProvider>
+                  <Component {...pageProps} />
+                </ThemeProvider>
+              </LoadStateWrapper>
             )}
           </GlobalContext.Consumer>
         </ContextWrapper>
