@@ -58,6 +58,7 @@ function DifficultySelect() {
         marks={marks}
         valueLabelFormat={valueLabelFormat}
         onChange={handleChange}
+        value={settings.difficulty}
       />
     </div>
   );

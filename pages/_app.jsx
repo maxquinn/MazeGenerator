@@ -28,8 +28,10 @@ function reducer(state, action) {
         playerColor: state.playerColor,
         gameSize: action.gameSize,
       };
+    case 'LOAD_STATE':
+      return action.payload;
     default:
-      return initialState;
+      return state;
   }
 }
 
