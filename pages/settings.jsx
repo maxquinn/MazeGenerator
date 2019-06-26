@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChromePicker } from 'react-color';
 import { Typography } from '@material-ui/core';

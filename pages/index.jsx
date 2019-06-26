@@ -1,4 +1,3 @@
-import React from 'react';
 import ControlPanel from '../src/components/ControlPanel';
 import Game from '../src/components/Game';
 
