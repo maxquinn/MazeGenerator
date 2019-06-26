@@ -8,7 +8,6 @@ function Index() {
       <Game />
       <ControlPanel navigationValue="/" />
     </div>
-
   );
 }
 
