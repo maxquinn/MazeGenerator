@@ -9,4 +9,8 @@ function Highscores() {
   );
 }
 
+Highscores.getInitialProps = async ({ req }) => {
+  console.log(req);
+};
+
 export default Highscores;
