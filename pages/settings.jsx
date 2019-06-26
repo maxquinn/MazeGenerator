@@ -75,6 +75,7 @@ function Settings() {
             step={0.1}
             marks={marks}
             onChange={updateGameSize}
+            value={gameSize}
           />
         </div>
       </div>

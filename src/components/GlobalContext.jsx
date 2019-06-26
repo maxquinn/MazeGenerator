@@ -1,6 +1,5 @@
 import React from 'react';
-import initialState from '../helpers/initialState';
 
-const GlobalContext = React.createContext(initialState);
+const GlobalContext = React.createContext();
 
 export default GlobalContext;
