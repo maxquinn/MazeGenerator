@@ -9,14 +9,9 @@ function Index() {
 
   useEffect(() => {
     setLoaded(true);
-  }, []);
-
-  useEffect(() => {
     const state = localStorage.getItem('state');
-    if (state) {
-      dispatch({ type: 'LOAD_STATE', payload: JSON.parse(state) });
-    }
-  }, [loaded]);
+    if (state) dispatch({ type: 'LOAD_STATE', payload: JSON.parse(state) });
+  }, []);
 
   useEffect(() => {
     if (loaded) localStorage.setItem('state', JSON.stringify(settings));
