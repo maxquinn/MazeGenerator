@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChromePicker } from 'react-color';
 import { Typography } from '@material-ui/core';
@@ -41,11 +41,9 @@ const marks = [
 
 function Settings() {
   const {
-    settings,
     settings: { playerColor, gameSize },
     dispatch,
   } = useContext(GlobalContext);
-  const [loaded, setLoaded] = useState(false);
 
   function updatePlayerColor(color) {
     dispatch({ type: 'UPDATE_PLAYER_COLOR', playerColor: color.hex });
@@ -54,16 +52,6 @@ function Settings() {
   function updateGameSize(event, newValue) {
     dispatch({ type: 'UPDATE_GAME_SIZE', gameSize: newValue });
   }
-
-  useEffect(() => {
-    setLoaded(true);
-    const state = localStorage.getItem('state');
-    if (state) dispatch({ type: 'LOAD_STATE', payload: JSON.parse(state) });
-  }, []);
-
-  useEffect(() => {
-    if (loaded) localStorage.setItem('state', JSON.stringify(settings));
-  }, [settings]);
 
   const classes = useStyles();
   return (
