@@ -7,6 +7,7 @@ import ControlPanel from '../src/components/ControlPanel';
 import Header from '../src/components/Header';
 import PlayerIndicator from '../src/components/PlayerIndicator';
 import GlobalContext from '../src/components/GlobalContext';
+import LoadStateWrapper from '../src/components/LoadStateWrapper';
 
 const useStyles = makeStyles({
   root: {
@@ -66,33 +67,35 @@ function Settings() {
 
   const classes = useStyles();
   return (
-    <div>
-      <Header title="Settings" />
-      <div className={classes.root}>
-        <div className={classes.settingItem}>
-          <div className={classes.label}>
-            <Typography variant="subtitle1">Player Colour</Typography>
-            <PlayerIndicator />
+    <LoadStateWrapper>
+      <div>
+        <Header title="Settings" />
+        <div className={classes.root}>
+          <div className={classes.settingItem}>
+            <div className={classes.label}>
+              <Typography variant="subtitle1">Player Colour</Typography>
+              <PlayerIndicator />
+            </div>
+            <ChromePicker color={playerColor} disableAlpha onChange={updatePlayerColor} />
           </div>
-          <ChromePicker color={playerColor} disableAlpha onChange={updatePlayerColor} />
+          <div className={classes.settingItem}>
+            <Typography variant="subtitle1">Game Size</Typography>
+            <Slider
+              defaultValue={gameSize}
+              aria-labelledby="discrete-slider"
+              valueLabelDisplay="auto"
+              min={0.1}
+              max={1}
+              step={0.1}
+              marks={marks}
+              onChange={updateGameSize}
+              value={gameSize}
+            />
+          </div>
         </div>
-        <div className={classes.settingItem}>
-          <Typography variant="subtitle1">Game Size</Typography>
-          <Slider
-            defaultValue={gameSize}
-            aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            min={0.1}
-            max={1}
-            step={0.1}
-            marks={marks}
-            onChange={updateGameSize}
-            value={gameSize}
-          />
-        </div>
+        <ControlPanel navigationValue="/settings" />
       </div>
-      <ControlPanel navigationValue="/settings" />
-    </div>
+    </LoadStateWrapper>
   );
 }
 
