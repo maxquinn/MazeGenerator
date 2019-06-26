@@ -27,16 +27,11 @@ const LoadStateWrapper = ({ children }) => {
   useEffect(() => {
     if (loaded) localStorage.setItem('state', JSON.stringify(settings));
   }, [settings]);
-  return (
-    <>
-      {loaded ? (
-        { ...children }
-      ) : (
-        <div className={classes.loadingIcon}>
-          <CircularProgress />
-        </div>
-      )}
-    </>
+
+  return loaded ? children : (
+    <div className={classes.loadingIcon}>
+      <CircularProgress />
+    </div>
   );
 };
 
