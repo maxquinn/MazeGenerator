@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   title: {
+    marginTop: 0,
     fontSize: '40px',
     boxSizing: 'content-box',
     border: 'none',

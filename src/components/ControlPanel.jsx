@@ -10,7 +10,7 @@ import Router from 'next/router';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    position: 'absolute',
+    position: 'fixed',
     bottom: 0,
   },
 });
@@ -30,7 +30,6 @@ function ControlPanel(props) {
       showLabels
       className={classes.root}
     >
-
       <BottomNavigationAction label="Highscores" icon={<BarChart />} value="/highscores" />
       <BottomNavigationAction label="Play" icon={<VideogameAsset />} value="/" />
       <BottomNavigationAction label="Settings" icon={<Settings />} value="/settings" />

@@ -15,13 +15,10 @@ class MyDocument extends Document {
           />
           {/* PWA primary color */}
           <meta name="theme-color" content="#000" />
+          <meta name="Description" content="Can you find the end of the Labyrinth?" />
           <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          />
         </Head>
-        <body>
+        <body style={{ minHeight: '100vh', paddingBottom: '56px' }}>
           <Main />
           <NextScript />
         </body>
