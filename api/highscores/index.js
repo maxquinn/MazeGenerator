@@ -9,15 +9,14 @@ export default async (req, res) => {
     INSERT INTO highscores (difficulty, time, name)
     VALUES (${difficulty}, ${time}, ${name})
   `);
-    console.log(data);
     return 'error' in data ? res.status(400).send(data) : res.status(200).send({ difficulty });
   }
   const scores = await query(escape`
       SELECT *
       FROM highscores
       WHERE difficulty = ${req.query.difficulty}
-      ORDER BY time DESC
-      LIMIT 10
+      ORDER BY time ASC
+      LIMIT 5
     `);
   return res.status(200).json(scores);
 };
