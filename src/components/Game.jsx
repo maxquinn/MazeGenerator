@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import CountdownNow from 'react-countdown-now';
 import fetch from 'isomorphic-unfetch';
 import { makeStyles } from '@material-ui/core/styles';
+import Router from 'next/router';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';
 import Countdown from './Countdown';
@@ -81,7 +82,10 @@ function Game() {
     fetch('/api/highscores', options)
       .then(res => res.json())
       .then((data) => {
-        console.log(data);
+        Router.push({
+          pathname: '/highscores',
+          query: { difficulty: data.difficulty },
+        }, '/highscores');
       });
   }
 
