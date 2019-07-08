@@ -3,6 +3,8 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import { timer } from 'd3-timer';
+import { hsl } from 'd3-color';
 import Grid from '../classes/Grid';
 import forgeTheLabyrinth from '../helpers/forgeTheLabyrinth';
 import InputManager from '../classes/InputManager';
@@ -22,6 +24,7 @@ function GameBoard(props) {
   } = props;
   const canvas = useRef(null);
   const [grid, setGrid] = useState(new Grid(difficulty, boardSize, playerColor));
+  const [frontier, setFrontier] = useState([]);
   const [input] = useState(new InputManager());
   const [playing, setPlaying] = useState(false);
 
@@ -37,11 +40,24 @@ function GameBoard(props) {
     }
   }
 
+  function colorFun() {
+    let distance = 0;
+    timer(() => {
+      grid.ctx.fillStyle = `${hsl((distance += 1 % 360), 1, 0.5)}`;
+      if (frontier.length) {
+        frontier.pop().colorFill(grid.ctx);
+      }
+      return true;
+    });
+  }
+
   function update() {
     if (input.pressedKeys.left) {
       if (grid.isLegalMove(grid.player.x - 1, grid.player.y)) {
         grid.movePlayerLeft();
         setGrid(grid);
+      } else {
+        colorFun();
       }
     }
     if (input.pressedKeys.right) {
@@ -71,7 +87,9 @@ function GameBoard(props) {
   }
 
   function startGame() {
-    setGrid(grid.setBoard(forgeTheLabyrinth(1, 1, grid.board)));
+    const labyrinth = forgeTheLabyrinth(1, 1, grid.board);
+    setGrid(grid.setBoard(labyrinth.grid));
+    setFrontier(labyrinth.frontier);
     setPlaying(true);
   }
 
