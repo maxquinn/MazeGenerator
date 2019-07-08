@@ -38,6 +38,8 @@
     "@material-ui/lab": "^4.0.0-alpha.18",
     "@material-ui/styles": "^4.1.2",
     "add": "^2.0.6",
+    "d3-color": "^1.2.8",
+    "d3-timer": "^1.0.9",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^8.0.4",
     "prop-types": "^15.6.2",

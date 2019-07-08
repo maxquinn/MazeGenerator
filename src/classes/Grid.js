@@ -6,7 +6,7 @@ import Finish from './Finish';
 export default class Grid {
   constructor(gridSize, boardSize, playerColor = '#000000') {
     this.board = [];
-    this.cellSize = boardSize / gridSize;
+    this.cellSize = Math.floor(boardSize / gridSize);
     this.startCell = {
       x: 0,
       y: 1,
@@ -45,7 +45,7 @@ export default class Grid {
   }
 
   resize(size) {
-    this.cellSize = size;
+    this.cellSize = Math.floor(size);
     this.board.forEach((item) => {
       item.forEach((cell) => {
         cell.setSize(size);

@@ -2,15 +2,16 @@ import Path from '../classes/Path';
 import findNeighbors from './findNeighbors';
 import shuffle from './shuffle';
 
-function forgeTheLabyrinth(x, y, stateGrid) {
+function forgeTheLabyrinth(x, y, stateGrid, stateFrontier = []) {
   const grid = stateGrid;
+  const frontier = stateFrontier;
   const currentCell = grid[x][y];
   grid[x][y] = new Path(currentCell.x, currentCell.y, currentCell.size);
-
+  frontier.unshift(grid[x][y]);
   currentCell.setNeighbors(findNeighbors(currentCell, grid));
+  currentCell.neighbors = shuffle(currentCell.neighbors);
 
   while (currentCell.hasNeighbors()) {
-    currentCell.neighbors = shuffle(currentCell.neighbors);
     const nextNeighbor = currentCell.neighbors[currentCell.neighbors.length - 1];
     nextNeighbor.setNeighbors(findNeighbors(nextNeighbor, grid));
 
@@ -26,12 +27,17 @@ function forgeTheLabyrinth(x, y, stateGrid) {
           nextNeighbor.y,
           nextNeighbor.size,
         );
-        forgeTheLabyrinth(neighbor.x, neighbor.y, grid);
+        frontier.unshift(grid[nextNeighbor.x][nextNeighbor.y]);
+        forgeTheLabyrinth(neighbor.x, neighbor.y, grid, frontier);
       }
     });
+
     currentCell.neighbors.pop();
   }
-  return grid;
+  return {
+    grid,
+    frontier,
+  };
 }
 
 export default forgeTheLabyrinth;

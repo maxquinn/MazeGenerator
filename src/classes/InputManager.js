@@ -9,6 +9,7 @@ const KEY = {
   S: 's',
   SPACE: ' ',
   ENTER: 'Enter',
+  P: 'p',
 };
 
 export default class InputManager {
@@ -20,6 +21,7 @@ export default class InputManager {
       down: false,
       space: false,
       enter: false,
+      p: false,
     };
   }
 
@@ -47,6 +49,9 @@ export default class InputManager {
         break;
       case KEY.ENTER:
         keys.enter = value;
+        break;
+      case KEY.P:
+        keys.p = value;
         break;
       default:
         break;
