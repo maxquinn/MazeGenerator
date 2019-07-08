@@ -18,7 +18,9 @@ const useStyles = makeStyles({
 });
 
 function GameBoard(props) {
-  const { settings: { playerColor } } = useContext(GlobalContext);
+  const {
+    settings: { playerColor },
+  } = useContext(GlobalContext);
   const {
     difficulty, boardSize, onGameTimerUpdate, startTime,
   } = props;
@@ -27,6 +29,7 @@ function GameBoard(props) {
   const [frontier, setFrontier] = useState([]);
   const [input] = useState(new InputManager());
   const [playing, setPlaying] = useState(false);
+  const [secretActivated] = useState(playerColor === '#10085e');
 
   function checkWin() {
     const {
@@ -40,7 +43,7 @@ function GameBoard(props) {
     }
   }
 
-  function colorFun() {
+  function visualise() {
     let distance = 0;
     timer(() => {
       grid.ctx.fillStyle = `${hsl((distance += 1 % 360), 1, 0.5)}`;
@@ -56,8 +59,6 @@ function GameBoard(props) {
       if (grid.isLegalMove(grid.player.x - 1, grid.player.y)) {
         grid.movePlayerLeft();
         setGrid(grid);
-      } else {
-        colorFun();
       }
     }
     if (input.pressedKeys.right) {
@@ -77,6 +78,9 @@ function GameBoard(props) {
         grid.movePlayerDown();
         setGrid(grid);
       }
+    }
+    if (input.pressedKeys.p && secretActivated) {
+      visualise();
     }
 
     checkWin();
