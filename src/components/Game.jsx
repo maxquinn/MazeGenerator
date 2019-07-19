@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import CountdownNow from 'react-countdown-now';
 import fetch from 'isomorphic-unfetch';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import Router from 'next/router';
 import GameBoard from './GameBoard';
 import Instructions from './Instructions';

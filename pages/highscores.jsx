@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Snackbar from '@material-ui/core/Snackbar';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import ErrorIcon from '@material-ui/icons/Error';
 import CloseIcon from '@material-ui/icons/Close';

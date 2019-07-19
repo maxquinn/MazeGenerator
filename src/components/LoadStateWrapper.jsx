@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import GlobalContext from './GlobalContext';
 
 const useStyles = makeStyles({
