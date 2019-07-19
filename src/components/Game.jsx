@@ -99,7 +99,7 @@ function Game() {
             onGameWin={setGameWon}
             onGameTimerUpdate={handleGameTimerUpdate}
             boardSize={boardSize}
-            startTime={startTime}
+            startTime={new Date()}
             difficulty={difficulty}
           />
         </>
@@ -112,7 +112,7 @@ function Game() {
   const classes = useStyles();
   if (gameInProgress) {
     componentToRender = (
-      <CountdownNow date={startTime + 3000} zeroPadLength={1} renderer={renderer} />
+      <CountdownNow date={(startTime) + 3000} zeroPadLength={1} renderer={renderer} />
     );
     if (gameWon) {
       componentToRender = (
