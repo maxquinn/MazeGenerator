@@ -29,7 +29,7 @@ function GameBoard(props) {
   const [frontier, setFrontier] = useState([]);
   const [input] = useState(new InputManager());
   const [playing, setPlaying] = useState(false);
-  const [secretActivated] = useState(playerColor === '#10085e');
+  const [secretActivated, setSecretActivated] = useState(false);
 
   function checkWin() {
     const {
@@ -44,11 +44,15 @@ function GameBoard(props) {
   }
 
   function visualise() {
+    grid.ctx.fillStyle = '#000';
+    grid.ctx.fillRect(0, 0, boardSize, boardSize);
     let distance = 0;
-    timer(() => {
+    const t = timer(() => {
       grid.ctx.fillStyle = `${hsl((distance += 1 % 360), 1, 0.5)}`;
       if (frontier.length) {
         frontier.pop().colorFill(grid.ctx);
+      } else {
+        t.stop();
       }
       return true;
     });
@@ -79,8 +83,10 @@ function GameBoard(props) {
         setGrid(grid);
       }
     }
-    if (input.pressedKeys.p && secretActivated) {
-      visualise();
+    if (input.pressedKeys.p) {
+      if (playerColor === '#10085e') {
+        setSecretActivated(true);
+      }
     }
 
     checkWin();
@@ -127,6 +133,12 @@ function GameBoard(props) {
     };
   }, [playing]);
 
+  useEffect(() => {
+    if (secretActivated) {
+      visualise();
+    }
+  }, [secretActivated]);
+
   const classes = useStyles();
 
   return <canvas className={classes.root} ref={canvas} width={boardSize} height={boardSize} />;
@@ -136,7 +148,7 @@ GameBoard.propTypes = {
   onGameWin: PropTypes.func.isRequired,
   onGameTimerUpdate: PropTypes.func.isRequired,
   difficulty: PropTypes.number.isRequired,
-  startTime: PropTypes.number.isRequired,
+  startTime: PropTypes.instanceOf(Date).isRequired,
   boardSize: PropTypes.number.isRequired,
 };
 

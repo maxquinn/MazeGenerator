@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import Slider from '@material-ui/lab/Slider';
-import { makeStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
+import { makeStyles } from '@material-ui/styles';
 import { Typography } from '@material-ui/core';
 import GlobalContext from './GlobalContext';
 import Difficulties from '../helpers/difficulties';

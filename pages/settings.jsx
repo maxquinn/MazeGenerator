@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { ChromePicker } from 'react-color';
 import { Typography } from '@material-ui/core';
-import Slider from '@material-ui/lab/Slider';
+import Slider from '@material-ui/core/Slider';
 import ControlPanel from '../src/components/ControlPanel';
 import Header from '../src/components/Header';
 import PlayerIndicator from '../src/components/PlayerIndicator';
