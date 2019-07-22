@@ -4712,7 +4712,7 @@ serialize-javascript@^1.7.0:
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.7.0.tgz#d6e0dfb2a3832a8c94468e6eb1db97e55a192a65"
   integrity sha512-ke8UG8ulpFOxO8f8gRYabHQe/ZntKlcig2Mp+8+URDP1D8vJZ0KUt7LYo07q25Z/+JVSgpr/cui9PIp5H6/+nA==
 
-serverless-mysql@^1.4.0:
+serverless-mysql@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/serverless-mysql/-/serverless-mysql-1.5.0.tgz#144cbda445497e4d3b4353ad0f70b2de258e7ce9"
   integrity sha512-yi+li4NxNL4GJjFRF9nvFxY5hY/zWUd4L3YgfQe4Ryk50d4+Js6d5dmknvjdBMXYBZci1a3o5chOIsM/DliKyQ==
